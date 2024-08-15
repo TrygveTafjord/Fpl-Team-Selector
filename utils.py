@@ -14,3 +14,4 @@ def get_player_history_by_season(season: Season):
         df = pd.read_csv(f'{directory}/{player}/gw.csv')
         dfs.append(df)
     return pd.concat(dfs)
+
