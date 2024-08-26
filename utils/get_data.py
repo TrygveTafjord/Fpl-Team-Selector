@@ -1,11 +1,6 @@
 import pandas as pd
 import requests
 from feature_selection_config import fpl_features_by_position
-# Constants for the team_info_dictionary
-WAS_HOME = 0
-STRENGHT_DIFFERENCE = 1 
-ATTACK_STRENGHT_DIFFERENCE = 2
-DEFENSE_STRENGHT_DIFFERENCE = 3
 
 
 def get_upcoming_fixture_data(num_fixtures) -> dict:
