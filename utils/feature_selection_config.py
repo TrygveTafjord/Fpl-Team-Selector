@@ -4,7 +4,7 @@ The results are stored here for the final model training. """
 
 fpl_features_by_position = {
     "GK": [
-                'name', 'position', 'team', 'xP', 'bonus', 'bps', 'clean_sheets',  
+                'name', 'position', 'team', 'element', 'xP', 'bonus', 'bps', 'clean_sheets',  
                 'expected_goals_conceded', 'ict_index', 'influence', 'minutes', 
                 'opponent_team', 'own_goals', 'red_cards', 'saves',
                 'selected', 'team_a_score', 'team_h_score', 'total_points', 
@@ -12,7 +12,7 @@ fpl_features_by_position = {
                 'yellow_cards', 'GW'
                 ],
     "DEF": [
-                'name', 'position', 'team', 'xP', 'assists', 'bonus', 'bps', 'clean_sheets', 
+                'name', 'position', 'team', 'element', 'xP', 'assists', 'bonus', 'bps', 'clean_sheets', 
                 'creativity', 'expected_assists', 'expected_goal_involvements', 
                 'expected_goals','expected_goals_conceded', 'goals_scored', 'ict_index', 'influence', 'minutes', 
                 'opponent_team', 'own_goals', 'penalties_missed', 'red_cards', 
@@ -21,7 +21,7 @@ fpl_features_by_position = {
                 'yellow_cards', 'GW'
                 ],
     "MID": [
-                'name', 'position', 'team', 'xP', 'assists', 'bonus', 'bps', 'clean_sheets', 
+                'name', 'position', 'team', 'element', 'xP', 'assists', 'bonus', 'bps', 'clean_sheets', 
                 'creativity', 'expected_assists', 'expected_goal_involvements', 
                 'expected_goals','expected_goals_conceded', 'goals_scored', 'ict_index', 'influence', 'minutes', 
                 'opponent_team', 'own_goals', 'penalties_missed', 'red_cards', 
@@ -30,7 +30,7 @@ fpl_features_by_position = {
                 'yellow_cards', 'GW'
                 ],
     "FWD": [
-                'name', 'position', 'team', 'xP', 'assists', 'bonus', 'bps', 
+                'name', 'position', 'team', 'element', 'xP', 'assists', 'bonus', 'bps', 
                 'creativity', 'expected_assists', 'expected_goal_involvements', 
                 'expected_goals', 'goals_scored', 'ict_index', 'influence', 'minutes', 
                 'opponent_team', 'own_goals', 'penalties_missed', 'red_cards', 
@@ -77,5 +77,4 @@ fpl_lagged_features_by_position = {
                 'transfers_out', 'value', 
     ]
 }
-
 

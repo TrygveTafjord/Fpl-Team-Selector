@@ -1,0 +1,22 @@
+team_name_to_id = {
+    "Arsenal": 1,
+    "Aston Villa": 2,
+    "Bournemouth": 3,
+    "Brentford": 4,
+    "Brighton": 5,
+    "Chelsea": 6,
+    "Crystal Palace": 7,
+    "Everton": 8,
+    "Fulham": 9,
+    "Ipswich": 10,
+    "Leicester": 11,
+    "Liverpool": 12,
+    "Man City": 13,
+    "Man Utd": 14,
+    "Newcastle": 15,
+    "Nott'm Forest": 16,
+    "Southampton": 17,
+    "Spurs": 18,
+    "West Ham": 19,
+    "Wolves": 20
+}
