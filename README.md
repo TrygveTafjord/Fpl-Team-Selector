@@ -5,7 +5,12 @@ A random forrest model is used, a seperate model is made for each position (GK, 
 
 
 #### Historic data is fetched form the following repo:
-https://github.com/vaastav/Fantasy-Premier-League
+@misc{anand2016fantasypremierleague,
+  title = {{FPL Historical Dataset}},
+  author = {Anand, Vaastav},
+  year = {2022},
+  howpublished = {Retrieved August 2022 from \url{https://github.com/vaastav/Fantasy-Premier-League/}}
+}
 
 #### Data on players and upcoming fixtures is fetched from the fpl-api
 Information on how to use the api is gotten from:
