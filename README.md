@@ -1,5 +1,5 @@
 # fpl_team_selector
-####Making a point-predictor and team selector for fantasy premier league
+#### Making a point-predictor and team selector for fantasy premier league
 points are predicted using player-data from the five previously played matches, as well as information about upcoming fixtures.
 A random forrest model is used, a seperate model is made for each position (GK, DEF, MID, FWD).
 
