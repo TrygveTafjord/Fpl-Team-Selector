@@ -1,4 +1,4 @@
-# Fantasy Premier League Point Predictor and Team Selector
+# Fantasy Premier League Point Predictor
 
 This project aims to create a point predictor and team selector for Fantasy Premier League (FPL). The predictor uses a Random Forest model to predict points based on player data from the five most recent matches and upcoming fixture information. Separate models are created for each player position (GK, DEF, MID, FWD).
 
