@@ -16,6 +16,7 @@ Historical data for player performances is fetched from a publicly available dat
   year = {2022},
   howpublished = {Retrieved August 2022 from \url{https://github.com/vaastav/Fantasy-Premier-League/}}
 }
+```
 
 ### Real-Time Player and Fixture Data
 Real-time data on players and upcoming fixtures is retrieved from the official Fantasy Premier League API. This data is used to inform the predictions for upcoming gameweeks and injuries.
