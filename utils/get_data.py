@@ -1,12 +1,12 @@
 import pandas as pd
 import requests
-from feature_selection_config import fpl_features_by_position, fpl_lagged_features_by_position
-
+from feature_selection_config import fpl_features_by_position
 # Constants for the team_info_dictionary
 WAS_HOME = 0
 STRENGHT_DIFFERENCE = 1 
 ATTACK_STRENGHT_DIFFERENCE = 2
 DEFENSE_STRENGHT_DIFFERENCE = 3
+
 
 def get_upcoming_fixture_data(num_fixtures) -> dict:
     """
@@ -56,6 +56,8 @@ def get_upcoming_fixture_data(num_fixtures) -> dict:
             ])
     return team_info_dictionary
 
+
+
 def get_last_five_matches_player_data(position) -> pd.DataFrame:
     """
     "input": position - str - the position of the players we want to get the data from
@@ -70,11 +72,6 @@ def get_last_five_matches_player_data(position) -> pd.DataFrame:
     #getting data from the 24/25 season 
     df = pd.read_csv(url, usecols=relevant_features)
     df = df[df['position'] == position]
-
-    for name, group in df.groupby('name'):
-        print(name + " " + group.iloc[-1]['element'])
-
-    df_combined = pd.DataFrame(combined_rows)
 
     num_gws = df['GW'].nunique()   
     #if the number of gameweeks is less than 5, we need to get the data from the 23/24 season as well 
@@ -97,15 +94,15 @@ def get_last_five_matches_player_data(position) -> pd.DataFrame:
 
     df.drop_duplicates(subset=['name', 'GW'], keep='first', inplace=True)
 
-    # Creating lagged features
-    lagged_features = fpl_lagged_features_by_position[position]
-    
+    # Creating lagged features, removing the features that are not relevant for the model
+    meta_data = ['name', 'position', 'GW']
+    lagged_features = [feature for feature in relevant_features if feature not in meta_data]  
+
     combined_rows = []
 
     for name, group in df.groupby('name'):
             combined_row = {}
             combined_row['name'] = name
-            combined_row['team'] = group['team'].iloc[-1]
             for i in range(NUM_LAGS):
                 if i < len(group):
                     row = group.iloc[i]
@@ -122,8 +119,34 @@ def get_last_five_matches_player_data(position) -> pd.DataFrame:
     return df_combined
 
 
+
 def get_player_metadata() -> pd.DataFrame:
-    metadata = ['name', 'element', 'team', 'position']
-    url = f"https://raw.githubusercontent.com/vaastav/Fantasy-Premier-League/master/data/2024-25/players_raw.csv"
-    df = pd.read_csv(url, usecols=metadata)
+    """"  
+    "output": pd.DataFrame - metadata of the players in the 24/25 season
+    """
+    #getting team info and current gameweek 
+    fpl_api_url = "https://fantasy.premierleague.com/api/bootstrap-static/"
+    static_response = requests.get(fpl_api_url)
+    if static_response.status_code != 200:
+        raise Exception(f"Failed to fetch data from {fpl_api_url}")
+    
+    metadata = ['first_name', 'second_name', 'id', 'team', 'element_type', 'now_cost' 'chance_of_playing_this_round', 'chance_of_playing_next_round']
+
+    df = pd.DataFrame(static_response.json()['elements'], columns=metadata)
+    df.drop_duplicates(subset=['id'], keep='first', inplace=True)
+
+    df['name'] = df['first_name'] + ' ' + df['second_name']
+    df.drop(['first_name', 'second_name'], axis=1, inplace=True)
+
+    element_type_to_position = {
+        1: 'GK',
+        2: 'DEF',
+        3: 'MID',
+        4: 'FWD'
+    }
+
+    df['position'] = df['element_type'].map(element_type_to_position)
+
+    print(df.head())
+    
     return df
