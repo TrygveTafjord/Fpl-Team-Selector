@@ -10,3 +10,5 @@ https://github.com/vaastav/Fantasy-Premier-League
 #### Data on players and upcoming fixtures is fetched from the fpl-api
 Information on how to use the api is gotten from:
 https://medium.com/@frenzelts/fantasy-premier-league-api-endpoints-a-detailed-guide-acbd5598eb19
+
+Using pandas, matplotlib, scikitlearn
