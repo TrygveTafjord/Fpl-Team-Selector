@@ -1,6 +1,5 @@
 import pandas as pd
 from utils.get_data import get_last_five_matches_player_data, get_upcoming_fixture_data, get_player_metadata
-from utils.teams import team_name_to_id
 
 # Constants for the columns in the fixture list
 
@@ -42,21 +41,21 @@ for player in player_metadata_df:
         X = pd.merge(historic_player_data, fixture)
         X = X.drop(columns=["name"])
         
-        if position == "FWD":
-            model = fwd_model
-        
-        elif position == "MID":
-            model = mid_model
-        
-        elif position == "DEF":
-            model = def_model
-        
-        elif position == "GK":
-            model = gk_model
+        #if position == "FWD":
+        #    model = fwd_model
+        #
+        #elif position == "MID":
+        #    model = mid_model
+        #
+        #elif position == "DEF":
+        #    model = def_model
+        #
+        #elif position == "GK":
+        #    model = gk_model
 
-        predicted_points = model.predict(X)
+        #predicted_points = model.predict(X)
 
-        player_df[f"predicted_points_{i}_leg_ahead"] = predicted_points
+        #player_df[f"predicted_points_{i}_leg_ahead"] = predicted_points
     
     completed_player_predictions.append(player_df)
 
