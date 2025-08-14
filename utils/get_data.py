@@ -62,7 +62,7 @@ def get_last_five_matches_player_data(position) -> pd.DataFrame:
     # Getting the relevant features for the given position from a dictionary in the feature_selection_config.py file
     relevant_features = fpl_features_by_position[position]
 
-    url = f"https://raw.githubusercontent.com/vaastav/Fantasy-Premier-League/master/data/2024-25/gws/merged_gw.csv"
+    url = f"https://raw.githubusercontent.com/vaastav/Fantasy-Premier-League/master/data/2025-26/gws/merged_gw.csv"
 
     #getting data from the 24/25 season 
     df = pd.read_csv(url, usecols=relevant_features)
@@ -72,14 +72,14 @@ def get_last_five_matches_player_data(position) -> pd.DataFrame:
     #if the number of gameweeks is less than 5, we need to get the data from the 23/24 season as well 
     if num_gws < NUM_LAGS:
         df['season'] = '2024-25'
-        url = f"https://raw.githubusercontent.com/vaastav/Fantasy-Premier-League/master/data/2023-24/gws/merged_gw.csv"
+        url = f"https://raw.githubusercontent.com/vaastav/Fantasy-Premier-League/master/data/2024-25/gws/merged_gw.csv"
         
-        df_23_24 = pd.read_csv(url, usecols=relevant_features)
-        df_23_24 = df_23_24[df_23_24['name'].isin(df['name'].unique())]
-        df_23_24.drop(df_23_24[df_23_24['GW'] <= 38 - (NUM_LAGS - num_gws)].index, inplace=True)        
-        df_23_24['season'] = '2023-24'
+        df_24_25 = pd.read_csv(url, usecols=relevant_features)
+        df_24_25 = df_24_25[df_24_25['name'].isin(df['name'].unique())]
+        df_24_25.drop(df_24_25[df_24_25['GW'] <= 38 - (NUM_LAGS - num_gws)].index, inplace=True)        
+        df_24_25['season'] = '2023-24'
         
-        df = pd.concat([df, df_23_24])
+        df = pd.concat([df, df_24_25])
         df.sort_values(by=['name', 'season', 'GW'], ascending=[True, True, True], inplace=True)
         df.drop('season', axis=1, inplace=True)
 
