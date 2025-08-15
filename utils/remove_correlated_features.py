@@ -1,23 +1,9 @@
 import pandas as pd
 import numpy as np
 
-def remove_correlated_features(df: pd.DataFrame, 
-                            target_col: str = 'total_points',  # The target column for correlation checks
-                              variance_threshold: float = 0.01,     # Minimum variance for a feature to be kept
-                              corr_feature_threshold: float = 0.8,  # Maximum correlation allowed between two features
-                              print_info: bool = True
-                              ) -> list[str]:
+def remove_correlated_features(df: pd.DataFrame, corr_feature_threshold: float = 0.8, print_info: bool = True) -> list[str]:
     
     NUM_INITIAL_FEATURES = len(df.columns)
-    # Remove low-variance features 
-    feature_variance = df.var()
-    low_variance_features = feature_variance[feature_variance < variance_threshold].index
-    df = df.drop(columns=low_variance_features)
-    if print_info:
-        print(f"Removed {len(low_variance_features)} low-variance features.")
-
-    # Remove highly correlated features
-
     # Calculate the correlation matrix
     correlation_matrix = df.corr()
     highly_correlated_features = list()

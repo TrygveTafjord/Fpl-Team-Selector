@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import xgboost as xgb
 from sklearn.feature_selection import SelectFromModel
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_val_score, TimeSeriesSplit
 
 def perform_xgboost_selection(df: pd.DataFrame, target_col: pd.DataFrame) -> list[str]:
 
@@ -19,15 +19,15 @@ def perform_xgboost_selection(df: pd.DataFrame, target_col: pd.DataFrame) -> lis
     print("Training initial model to get feature importances")
     base_model = xgb.XGBRegressor(
         objective='reg:squarederror', 
-        n_estimators=500, 
-        max_depth=6,
+        n_estimators=800, 
+        max_depth=4,
         colsample_bytree=0.8,
         learning_rate=0.105,
         reg_alpha=0.1,
         random_state=42,
         n_jobs=-1 # Use all available CPU cores
     )
-    base_model.fit(X.values, y.values)
+    base_model.fit(X, y)
 
     # Find the Optimal Number of Features 
     # We will iterate through different feature importance thresholds.
@@ -36,6 +36,9 @@ def perform_xgboost_selection(df: pd.DataFrame, target_col: pd.DataFrame) -> lis
     thresholds = np.sort(base_model.feature_importances_)
     best_score = -np.inf
     best_feature_count = 0
+
+    # Use TimeSeriesSplit for robust, time-aware cross-validation
+    tscv = TimeSeriesSplit(n_splits=5)
     
     print(f"Testing {len(thresholds)} different feature thresholds...")
     for thresh in thresholds:
@@ -60,8 +63,7 @@ def perform_xgboost_selection(df: pd.DataFrame, target_col: pd.DataFrame) -> lis
             n_jobs=-1
         )
         
-        # We use Negative Mean Squared Error. The goal is to maximize this (i.e., minimize MSE).
-        scores = cross_val_score(selection_model, select_X, y, cv=5, scoring='neg_mean_squared_error')
+        scores = cross_val_score(selection_model, select_X, y, cv=tscv, scoring='neg_mean_squared_error')
         mean_score = np.mean(scores)
 
         if mean_score > best_score:
@@ -76,6 +78,17 @@ def perform_xgboost_selection(df: pd.DataFrame, target_col: pd.DataFrame) -> lis
     # Now we use the best threshold to get the final list of feature names.
     final_selector = SelectFromModel(base_model, threshold=thresholds[len(thresholds) - best_feature_count], prefit=True)
     selected_feature_names = X.columns[(final_selector.get_support())].tolist()
+
+    importances = dict(zip(X.columns, base_model.feature_importances_))
+                       
+    # Filter the dictionary to only include selected features and then sort
+    selected_importances = {f: importances[f] for f in selected_feature_names}
+    sorted_features = sorted(selected_importances, key=selected_importances.get, reverse=True)
     
-    print("\nFeature Selection Complete")
-    return selected_feature_names
+    print("\nSelected features sorted by importance:")
+    
+    for f in sorted_features:
+        print(f"{f}: {selected_importances[f]:.4f}")
+
+    return sorted_features # Return the sorted list instead
+    

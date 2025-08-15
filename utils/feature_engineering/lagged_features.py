@@ -1,6 +1,6 @@
 import pandas as pd
 
-def get_player_data_by_pos(position: str, relevant_features: list[str]) -> pd.DataFrame:
+def get_data_lagged(position: str, relevant_features: list[str]) -> pd.DataFrame:
     
     # Getting data from 22/23 season    
     df_22_23 = pd.read_csv("../data/2022-23/gws/merged_gw.csv", usecols=relevant_features)
@@ -15,6 +15,8 @@ def get_player_data_by_pos(position: str, relevant_features: list[str]) -> pd.Da
 
     # Filtering only the given position
     df = df[df['position'] == position]
+    # Removing players that did not play in the last 2 GWs or red carded. IMPORTANT: This is a temporary solution, as I will later implement a classification model to remove players that do not play the next match
+    df = df[(df['minutes'] > 0)]
 
     # Adding information about the opponent team, looking at strength differences
     team_info_cols = [
@@ -62,13 +64,8 @@ def get_player_data_by_pos(position: str, relevant_features: list[str]) -> pd.Da
     df = pd.concat([df, lagged_df], axis=1)
     df.drop("season", axis=1, inplace=True)
 
-
     # A problem faced is that a lot of players are not playing, but they still affect the model. 
     # Assumption; I will make a classification model to remove most players that dont play the next match, thus I should not use them for the regression model analysis
-    print("number of datapoints before filtering:", len(df))
-    # Removing players that did not play in the last 2 GWs or red carded. IMPORTANT: This is a temporary solution, as I will later implement a classification model to remove players that do not play the next match
-    df = df[((df['minutes'] > 0) | (df['minutes_lag1'] > 0)) & (df['red_cards_lag1'] == 0)]
-    print("number of datapoints after filtering:", len(df))
 
     # Removing coloumns with info about the future
     items_to_keep = ['total_points', 'was_home'] # These are the only columns that should be used in the model, as they are not dependent on future information    

@@ -1,0 +1,91 @@
+import pandas as pd
+import numpy as np
+
+def get_data_hybrid(position: str, relevant_features: list[str]) -> pd.DataFrame:
+
+    print(f"Creating hybrid feature set for position: {position}")
+
+    # --- 1. Load and Merge Raw Data ---
+    # Getting data from 22/23 season
+    df_22_23 = pd.read_csv("../data/2022-23/gws/merged_gw.csv", usecols=relevant_features)
+    df_22_23['season'] = '2022-23'
+
+    # Getting data from 23/24 season
+    df_23_24 = pd.read_csv("../data/2023-24/gws/merged_gw.csv", usecols=relevant_features)
+    df_23_24['season'] = '2023-24'
+
+    # Merging the data
+    df = pd.concat([df_22_23, df_23_24], ignore_index=True)
+    df = df[df['position'] == position]
+    print(f"Num elements in {position} data before filter: {len(df)}")
+    df = df[(df['minutes'] > 0)] # Also remove players with red cards
+    print(f"Num elements in {position} data after filter: {len(df)}")
+
+    # Add Opponent Strength Features ---
+    team_info_cols = [
+        'id', 'name', 'strength', 'strength_attack_home', 'strength_attack_away',
+        'strength_defence_home', 'strength_defence_away'
+    ]
+    team_info_df_22_23 = pd.read_csv(f"../data/2022-23/teams.csv", usecols=team_info_cols)
+    team_info_df_23_24 = pd.read_csv(f"../data/2023-24/teams.csv", usecols=team_info_cols)
+    
+    # This loop is slow; a merge would be faster but this is functionally correct
+    for index, row in df.iterrows():
+        team_info_df = team_info_df_22_23 if row['season'] == '2022-23' else team_info_df_23_24
+        own_team_info = team_info_df[team_info_df['name'] == row['team']].iloc[0]
+        opp_team_info = team_info_df[team_info_df['id'] == row['opponent_team']].iloc[0]
+
+        if row['was_home']:
+            df.at[index, 'attack_strength_difference'] = own_team_info['strength_attack_home'] - opp_team_info['strength_defence_away']
+            df.at[index, 'defence_strength_difference'] = own_team_info['strength_defence_home'] - opp_team_info['strength_attack_away']
+        else:
+            df.at[index, 'attack_strength_difference'] = own_team_info['strength_attack_away'] - opp_team_info['strength_defence_home']
+            df.at[index, 'defence_strength_difference'] = own_team_info['strength_defence_away'] - opp_team_info['strength_attack_home']
+        df.at[index, 'strength_difference'] = own_team_info['strength'] - opp_team_info['strength']
+
+    # Sort data chronologically for each player
+    df.sort_values(by=['name', 'season', 'GW'], ascending=[True, True, True], inplace=True)
+
+    # Create EWMA Features
+    features_to_smooth = [
+        'xP', 'assists', 'bonus', 'bps', 'clean_sheets', 'creativity',
+        'expected_assists', 'expected_goal_involvements', 'expected_goals',
+        'expected_goals_conceded', 'goals_scored', 'ict_index', 'influence',
+        'minutes', 'threat', 'value'
+    ]
+    features_to_smooth = [f for f in features_to_smooth if f in df.columns]
+    print("Creating EWMA features...")
+    for feature in features_to_smooth:
+        df[f'{feature}_ewma'] = df.groupby('name')[feature].transform(
+            lambda x: x.shift(1).ewm(span=5, adjust=False).mean()
+        )
+
+    # Create Lag Features
+    lagged_features = [ 'xP', 'assists', 'bonus', 'bps', 'clean_sheets', 
+                        'creativity', 'expected_assists', 'expected_goal_involvements', 
+                        'expected_goals','expected_goals_conceded', 'goals_scored', 'ict_index',
+                        'influence', 'minutes', 'own_goals', 'selected', 
+                        'team_a_score', 'team_h_score', 'threat', 'total_points', 'value', 'yellow_cards'
+                      ]
+    NUM_LAGS = 2
+    lagged_columns = {}
+    for feature in lagged_features:
+        for i in range(1, NUM_LAGS + 1):
+            # Create a new column with lagged values
+            df[f'{feature}_lag{i}'] = df.groupby('name')[feature].shift(i)
+
+    
+    # Finalize Feature Set 
+    ewma_cols = [f'{f}_ewma' for f in features_to_smooth]
+    lag_cols = []
+    for i in range(1, NUM_LAGS + 1):
+        lag_cols.extend([f'{f}_lag{i}' for f in lagged_features])
+    strength_cols = ['attack_strength_difference', 'defence_strength_difference', 'strength_difference']
+    context_cols = ['was_home', 'total_points'] # Keep target variable
+
+    features_to_keep = ewma_cols + lag_cols + strength_cols + context_cols
+    df_final = df[features_to_keep].copy()
+    df_final = df_final.fillna(0) # Fill NaNs from initial lags/ewma
+
+    print("--- Hybrid feature set created successfully ---")
+    return df_final
