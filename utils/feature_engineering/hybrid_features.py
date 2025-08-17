@@ -5,7 +5,6 @@ def get_data_hybrid(position: str, relevant_features: list[str]) -> pd.DataFrame
 
     print(f"Creating hybrid feature set for position: {position}")
 
-    # --- 1. Load and Merge Raw Data ---
     # Getting data from 22/23 season
     df_22_23 = pd.read_csv("../data/2022-23/gws/merged_gw.csv", usecols=relevant_features)
     df_22_23['season'] = '2022-23'

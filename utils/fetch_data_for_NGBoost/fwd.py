@@ -1,37 +1,58 @@
 import pandas as pd
-import numpy as np
 
-def get_data_hybrid_w_var(position: str, relevant_features: list[str]) -> pd.DataFrame:
+def fetch_fwd_data_for_NGBoost(fetch_test_set: bool) -> pd.DataFrame:
 
-    print(f"Creating hybrid feature set for position: {position}")
 
-    # --- 1. Load and Merge Raw Data ---
-    # Getting data from 22/23 season
-    df_22_23 = pd.read_csv("../data/2022-23/gws/merged_gw.csv", usecols=relevant_features)
-    df_22_23['season'] = '2022-23'
+    print(f"Creating hybrid feature set for FWD")
 
-    # Getting data from 23/24 season
-    df_23_24 = pd.read_csv("../data/2023-24/gws/merged_gw.csv", usecols=relevant_features)
-    df_23_24['season'] = '2023-24'
+    # Loading relevant data, this is done based on the feature_selection notebook
+
+    fwd_features = [
+                'name', 'position', 'team', 'xP', 'assists', 'bps', 
+                'creativity', 'expected_assists', 'expected_goal_involvements', 
+                'expected_goals', 'goals_scored', 'ict_index', 'influence', 'minutes', 
+                'opponent_team', 'selected', 'threat', 'total_points', 'value', 'was_home', 
+                'GW'
+                ]
+
+    if fetch_test_set:
+            df = pd.read_csv("../data/2024-25/gws/merged_gw.csv", usecols=fwd_features)
+            df['season'] = '2024-25'
+
+             # An error in the data causes some rows to have opponent_team = 0 from round 22 and out
+            df = df[df['opponent_team'] > 0]
+
+    else:
+        # Load and Merge Raw Data
+        # Getting data from 22/23 season
+        df_22_23 = pd.read_csv("../data/2022-23/gws/merged_gw.csv", usecols=fwd_features)
+        df_22_23['season'] = '2022-23'
+
+        # Getting data from 23/24 season
+        df_23_24 = pd.read_csv("../data/2023-24/gws/merged_gw.csv", usecols=fwd_features)
+        df_23_24['season'] = '2023-24'
+        # Merging the data
+        df = pd.concat([df_22_23, df_23_24], ignore_index=True)
 
     # Merging the data
-    df = pd.concat([df_22_23, df_23_24], ignore_index=True)
-    df = df[df['position'] == position]
-    print(f"Num elements in {position} data before filter: {len(df)}")
+    df = df[df['position'] == "FWD"]
+    print(f"Num elements in FWD data before filter: {len(df)}")
     df = df[(df['minutes'] > 0)] # Also remove players with red cards
-    print(f"Num elements in {position} data after filter: {len(df)}")
+    print(f"Num elements in FWD data after filter: {len(df)}")
 
-    # Add Opponent Strength Features ---
+    # Add Opponent Strength Features 
     team_info_cols = [
         'id', 'name', 'strength', 'strength_attack_home', 'strength_attack_away',
         'strength_defence_home', 'strength_defence_away'
     ]
     team_info_df_22_23 = pd.read_csv(f"../data/2022-23/teams.csv", usecols=team_info_cols)
     team_info_df_23_24 = pd.read_csv(f"../data/2023-24/teams.csv", usecols=team_info_cols)
+    team_info_df_24_25 = pd.read_csv(f"../data/2024-25/teams.csv", usecols=team_info_cols)
     
     # This loop is slow; a merge would be faster but this is functionally correct
     for index, row in df.iterrows():
-        team_info_df = team_info_df_22_23 if row['season'] == '2022-23' else team_info_df_23_24
+
+        team_info_df = team_info_df_22_23 if row['season'] == '2022-23' else team_info_df_23_24 if row['season'] == '2023-24' else team_info_df_24_25
         own_team_info = team_info_df[team_info_df['name'] == row['team']].iloc[0]
         opp_team_info = team_info_df[team_info_df['id'] == row['opponent_team']].iloc[0]
 
@@ -49,16 +70,10 @@ def get_data_hybrid_w_var(position: str, relevant_features: list[str]) -> pd.Dat
     # Engineer Features for Predicting the VARIANCE (scale) ---
     print("Creating features for predicting the variance (volatility, uncertainty)...")
 
-
-    
     # Rolling Standard Deviation (Volatility)
     df['points_std_roll5'] = df.groupby('name')['total_points'].transform(
         lambda x: x.shift(1).rolling(window=5, min_periods=1).std()
     )
-    df['bps_std_roll5'] = df.groupby('name')['bps'].transform(
-        lambda x: x.shift(1).rolling(window=5, min_periods=1).std()
-    )
-
     # Haul & Blank Counts (Boom-or-Bust Metric)
     HAUL_THRESHOLD = 8
     BLANK_THRESHOLD = 3
@@ -70,12 +85,11 @@ def get_data_hybrid_w_var(position: str, relevant_features: list[str]) -> pd.Dat
     )
 
     # Create EWMA Features
-    features_to_smooth = [
-        'xP', 'assists', 'bps', 'clean_sheets', 'creativity',
-        'expected_assists', 'expected_goal_involvements', 'expected_goals',
-        'expected_goals_conceded', 'goals_scored', 'ict_index', 'influence',
-        'minutes', 'threat'
+    features_to_smooth =     [
+    'bps', 'creativity', 'expected_assists', 'expected_goal_involvements', 
+    'expected_goals', 'ict_index', 'minutes', 'total_points', 
     ]
+
     features_to_smooth = [f for f in features_to_smooth if f in df.columns]
     print("Creating EWMA features...")
     for feature in features_to_smooth:
@@ -83,20 +97,16 @@ def get_data_hybrid_w_var(position: str, relevant_features: list[str]) -> pd.Dat
             lambda x: x.shift(1).ewm(span=5, adjust=False).mean()
         )
 
-    # Create Lag Features
-    lagged_features = [ 'xP', 'assists', 'bps', 'clean_sheets', 
-                        'creativity', 'expected_assists', 'expected_goal_involvements', 
-                        'expected_goals','expected_goals_conceded', 'goals_scored', 'ict_index',
-                        'influence', 'minutes', 'own_goals', 'selected', 
-                        'team_a_score', 'team_h_score', 'threat', 'total_points', 'value', 'yellow_cards'
+
+    lagged_features = [
+                        'bps', 'expected_assists', 'expected_goals', 'goals_scored', 'ict_index',
+                        'influence', 'minutes', 'threat', 'total_points',  
                       ]
     NUM_LAGS = 2
-    lagged_columns = {}
     for feature in lagged_features:
         for i in range(1, NUM_LAGS + 1):
             # Create a new column with lagged values
             df[f'{feature}_lag{i}'] = df.groupby('name')[feature].shift(i)
-
     
     # Finalize Feature Set 
     ewma_cols = [f'{f}_ewma' for f in features_to_smooth]
@@ -105,11 +115,14 @@ def get_data_hybrid_w_var(position: str, relevant_features: list[str]) -> pd.Dat
         lag_cols.extend([f'{f}_lag{i}' for f in lagged_features])
     strength_cols = ['attack_strength_difference', 'defence_strength_difference', 'strength_difference']
     context_cols = ['was_home', 'total_points'] # Keep target variable
-    variance_cols = ['points_std_roll5', 'bps_std_roll5', 'hauls_roll5', 'blanks_roll5']
+    variance_cols = ['points_std_roll5', 'hauls_roll5', 'blanks_roll5']
 
     features_to_keep = ewma_cols + lag_cols + strength_cols + context_cols + variance_cols
     df_final = df[features_to_keep].copy()
-    df_final = df_final.fillna(0) # Fill NaNs from initial lags/ewma
+    df_final = df_final.fillna(0) 
+
+    df_final['was_home'] = df_final['was_home'].astype(bool).astype(int)
 
     print("Improved Hybrid feature set created successfully")
     return df_final
+    
