@@ -11,7 +11,7 @@ def fetch_gk_data_for_NGBoost(fetch_test_set: bool) -> pd.DataFrame:
                 'name', 'position', 'GW', 'xP', 'bps', 'clean_sheets',  
                 'expected_goals_conceded', 'minutes', 
                 'opponent_team', 'saves','total_points', 
-                'value', 'was_home',                 
+                'value', 'was_home', 'team'                
                 ]
 
     if fetch_test_set:

@@ -1,6 +1,6 @@
 import pandas as pd
 import requests
-from feature_selection_config import fpl_features_by_position
+from feature_selection_config import fpl_features_by_position, fpl_lagged_features_by_position, fpl_features_to_smooth_by_position
 
 
 def get_upcoming_fixture_data(num_fixtures) -> dict:
@@ -52,32 +52,28 @@ def get_upcoming_fixture_data(num_fixtures) -> dict:
     return team_info_dictionary
 
 
-
-def get_last_five_matches_player_data(position) -> pd.DataFrame:
-    """
-    "input": position - str - the position of the players we want to get the data from
-    "output": pd.DataFrame - the data of the last five matches of the players of the given position as lagged features
-    """
-    NUM_LAGS = 5 
+def get_historical_player_data(position) -> pd.DataFrame:
+    
     # Getting the relevant features for the given position from a dictionary in the feature_selection_config.py file
-    relevant_features = fpl_features_by_position[position]
+    features = fpl_features_by_position[position],
 
     url = f"https://raw.githubusercontent.com/vaastav/Fantasy-Premier-League/master/data/2025-26/gws/merged_gw.csv"
 
-    #getting data from the 24/25 season 
-    df = pd.read_csv(url, usecols=relevant_features)
+    #getting data from the 25/26 season 
+    df = pd.read_csv(url, usecols=feature)
     df = df[df['position'] == position]
 
     num_gws = df['GW'].nunique()   
-    #if the number of gameweeks is less than 5, we need to get the data from the 23/24 season as well 
+    #if the number of gameweeks is less than 5, we need to get the data from the 24/25 season as well 
+    NUM_LAGS = 5 
     if num_gws < NUM_LAGS:
         df['season'] = '2024-25'
         url = f"https://raw.githubusercontent.com/vaastav/Fantasy-Premier-League/master/data/2024-25/gws/merged_gw.csv"
         
-        df_24_25 = pd.read_csv(url, usecols=relevant_features)
+        df_24_25 = pd.read_csv(url, usecols=features)
         df_24_25 = df_24_25[df_24_25['name'].isin(df['name'].unique())]
         df_24_25.drop(df_24_25[df_24_25['GW'] <= 38 - (NUM_LAGS - num_gws)].index, inplace=True)        
-        df_24_25['season'] = '2023-24'
+        df_24_25['season'] = '2024-25'
         
         df = pd.concat([df, df_24_25])
         df.sort_values(by=['name', 'season', 'GW'], ascending=[True, True, True], inplace=True)
@@ -89,9 +85,59 @@ def get_last_five_matches_player_data(position) -> pd.DataFrame:
 
     df.drop_duplicates(subset=['name', 'GW'], keep='first', inplace=True)
 
+    # Engineer Features for Predicting the VARIANCE (scale) ---
+    # Rolling Standard Deviation (Volatility)
+    df['points_std_roll5'] = df.groupby('name')['total_points'].transform(
+        lambda x: x.rolling(window=NUM_LAGS, min_periods=1).std()
+    )
+    # Haul & Blank Counts (Boom-or-Bust Metric)
+    HAUL_THRESHOLD = 8
+    BLANK_THRESHOLD = 3
+    df['hauls_roll5'] = df.groupby('name')['total_points'].transform(
+        lambda x: x.rolling(window=NUM_LAGS, min_periods=1).apply(lambda y: (y >= HAUL_THRESHOLD).sum())
+    )
+
+    df['blanks_roll5'] = df.groupby('name')['total_points'].transform(
+        lambda x: x.rolling(window=NUM_LAGS, min_periods=1).apply(lambda y: (y < BLANK_THRESHOLD).sum())
+    )
+
+    features_to_smooth = fpl_features_to_smooth_by_position[position]
+    for feature in features_to_smooth:
+        df[f'{feature}_ewma'] = df.groupby('name')[feature].transform(
+            lambda x: x.ewm(span=NUM_LAGS, adjust=False).mean()
+        )
+
+    features_to_lag = fpl_lagged_features_by_position[position]
+
+    NUM_LAGS = 2
+    for feature in features_to_lag:
+        df[f'{feature}_lag1'] = df.groupby('name')[feature]
+        for i in range(2, NUM_LAGS + 1):
+            # Create a new column with lagged values
+            df[f'{feature}_lag{i}'] = df.groupby('name')[feature].shift(i)
+    
+    # Finalize Feature Set 
+    ewma_cols = [f'{f}_ewma' for f in features_to_smooth]
+    lag_cols = []
+    for i in range(1, NUM_LAGS + 1):
+        lag_cols.extend([f'{f}_lag{i}' for f in features_to_lag])
+
+    variance_cols = ['points_std_roll5', 'hauls_roll5', 'blanks_roll5']
+
+    features_to_keep = ewma_cols + lag_cols + variance_cols
+    df_final = df[features_to_keep].copy()
+    df_final = df_final.fillna(0) 
+    
+    return df_final
+    
+
+
+
+
+
     # Creating lagged features, removing the features that are not relevant for the model
     meta_data = ['name', 'position', 'GW']
-    lagged_features = [feature for feature in relevant_features if feature not in meta_data]  
+    lagged_features = [feature for feature in lagged_features if feature not in meta_data]  
 
     combined_rows = []
 

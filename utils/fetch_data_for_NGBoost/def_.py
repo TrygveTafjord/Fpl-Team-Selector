@@ -3,7 +3,6 @@ import pandas as pd
 def fetch_def_data_for_NGBoost(fetch_test_set: bool) -> pd.DataFrame:
 
 
-    print(f"Creating hybrid feature set for DEF")
 
     # Loading relevant data, this is done based on the feature_selection notebook
 
@@ -34,9 +33,7 @@ def fetch_def_data_for_NGBoost(fetch_test_set: bool) -> pd.DataFrame:
         df = pd.concat([df_22_23, df_23_24], ignore_index=True)
 
     df = df[df['position'] == "DEF"]
-    print(f"Num elements in DEF data before filter: {len(df)}")
     df = df[(df['minutes'] > 0)] # Also remove players with red cards
-    print(f"Num elements in DEF data after filter: {len(df)}")
 
     # Add Opponent Strength Features 
     team_info_cols = [
@@ -65,8 +62,6 @@ def fetch_def_data_for_NGBoost(fetch_test_set: bool) -> pd.DataFrame:
     df.sort_values(by=['name', 'season', 'GW'], ascending=[True, True, True], inplace=True)
 
     # Engineer Features for Predicting the VARIANCE (scale) ---
-    print("Creating features for predicting the variance (volatility, uncertainty)...")
-
     # Rolling Standard Deviation (Volatility)
     df['points_std_roll5'] = df.groupby('name')['total_points'].transform(
         lambda x: x.shift(1).rolling(window=5, min_periods=1).std()
@@ -89,7 +84,6 @@ def fetch_def_data_for_NGBoost(fetch_test_set: bool) -> pd.DataFrame:
         'influence','minutes', 'yellow_cards', 'total_points'
     ]
     features_to_smooth = [f for f in features_to_smooth if f in df.columns]
-    print("Creating EWMA features...")
     for feature in features_to_smooth:
         df[f'{feature}_ewma'] = df.groupby('name')[feature].transform(
             lambda x: x.shift(1).ewm(span=5, adjust=False).mean()
@@ -120,8 +114,6 @@ def fetch_def_data_for_NGBoost(fetch_test_set: bool) -> pd.DataFrame:
     df_final = df_final.fillna(0) 
 
     df_final['was_home'] = df_final['was_home'].astype(bool).astype(int)
-
-    print("Improved Hybrid feature set created successfully")
     
     return df_final
     
