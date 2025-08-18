@@ -3,20 +3,10 @@ import requests
 from feature_selection_config import fpl_features_by_position, fpl_lagged_features_by_position, fpl_features_to_smooth_by_position
 
 
-def get_upcoming_fixture_data(num_fixtures) -> dict:
-    """
-    "input": num_fixtures - int - the number of upcoming fixtures we want to get the data from
-    "output": info of upcoming fixtures - dict - a dictionary where each key is a club id, and the value is a list of dictionaries containing match data for the upcoming num_fixtures 
-    """
-    #getting team info and current gameweek 
-    fpl_api_url = "https://fantasy.premierleague.com/api/bootstrap-static/"
-    static_response = requests.get(fpl_api_url)
-    if static_response.status_code != 200:
-        raise Exception(f"Failed to fetch data from {fpl_api_url}")
+def get_upcoming_fixture_data(num_fixtures: int, bootstrap_data: dict) -> dict:
 
-    df_teams = pd.DataFrame(static_response.json()['teams'])
-
-    current_gw = next(event['id'] for event in static_response.json()['events'] if event['is_current'])
+    df_teams = pd.DataFrame(bootstrap_data['teams'])
+    current_gw = next(event['id'] for event in bootstrap_data['events'] if event['is_current'])
 
     gw_fixtures_list = []
 
@@ -28,12 +18,16 @@ def get_upcoming_fixture_data(num_fixtures) -> dict:
             raise Exception(f"Failed to fetch data from {fixtures_url}")
         gw_fixtures_list.append(gw_response.json())
     
-    #creating a dictionary with the team id as key and the strength of the team as value
-    #team_info_dictionary = {team_id : [was_home, strength_difference, attack_strenght_difference, defence_strenght_difference], [...] ...}
+    #team_info_dictionary = {team_id : pd.DataFrame[was_home, strength_difference, attack_strenght_difference, defence_strenght_difference], [...] ...}
     team_info_dictionary = {}
 
     for team_id in df_teams['id']:
-        team_info_dictionary[team_id] = []
+        team_info_dictionary[team_id] = pd.DataFrame(columns=[
+            'was_home',
+            'strength_difference',
+            'attack_strength_difference',
+            'defense_strength_difference'
+        ])
 
     for fixtures in gw_fixtures_list: 
         for fixture in fixtures:
@@ -49,10 +43,17 @@ def get_upcoming_fixture_data(num_fixtures) -> dict:
                 df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength_attack_away'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength_defence_home'].values[0],
                 df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength_defence_away'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength_attack_home'].values[0]
             ])
+    
     return team_info_dictionary
 
 
+
+
+
+
 def get_historical_player_data(position) -> pd.DataFrame:
+
+    # Return a DataFrame with historical player data for the given position
     
     # Getting the relevant features for the given position from a dictionary in the feature_selection_config.py file
     features = fpl_features_by_position[position],
@@ -60,7 +61,11 @@ def get_historical_player_data(position) -> pd.DataFrame:
     url = f"https://raw.githubusercontent.com/vaastav/Fantasy-Premier-League/master/data/2025-26/gws/merged_gw.csv"
 
     #getting data from the 25/26 season 
-    df = pd.read_csv(url, usecols=feature)
+    try:
+        df = pd.read_csv(url, usecols=feature)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Data for the {position} position not found in the specified URL: {url}")
+    
     df = df[df['position'] == position]
 
     num_gws = df['GW'].nunique()   
@@ -85,7 +90,7 @@ def get_historical_player_data(position) -> pd.DataFrame:
 
     df.drop_duplicates(subset=['name', 'GW'], keep='first', inplace=True)
 
-    # Engineer Features for Predicting the VARIANCE (scale) ---
+    # Engineer Features for Predicting the VARIANCE (scale)
     # Rolling Standard Deviation (Volatility)
     df['points_std_roll5'] = df.groupby('name')['total_points'].transform(
         lambda x: x.rolling(window=NUM_LAGS, min_periods=1).std()
@@ -111,10 +116,9 @@ def get_historical_player_data(position) -> pd.DataFrame:
 
     NUM_LAGS = 2
     for feature in features_to_lag:
-        df[f'{feature}_lag1'] = df.groupby('name')[feature]
-        for i in range(2, NUM_LAGS + 1):
+        for i in range(1, NUM_LAGS + 1):
             # Create a new column with lagged values
-            df[f'{feature}_lag{i}'] = df.groupby('name')[feature].shift(i)
+            df[f'{feature}_lag{i}'] = df.groupby('name')[feature].shift(i-1)
     
     # Finalize Feature Set 
     ewma_cols = [f'{f}_ewma' for f in features_to_smooth]
@@ -123,71 +127,26 @@ def get_historical_player_data(position) -> pd.DataFrame:
         lag_cols.extend([f'{f}_lag{i}' for f in features_to_lag])
 
     variance_cols = ['points_std_roll5', 'hauls_roll5', 'blanks_roll5']
+    metadata_cols = ['name']
 
-    features_to_keep = ewma_cols + lag_cols + variance_cols
+    features_to_keep = ewma_cols + lag_cols + variance_cols + metadata_cols
     df_final = df[features_to_keep].copy()
     df_final = df_final.fillna(0) 
     
     return df_final
+
+def get_player_metadata(bootstrap_data: dict) -> pd.DataFrame:
+
+    metadata_cols = ['first_name', 'second_name', 'id', 'team', 'element_type', 'now_cost', 'chance_of_playing_this_round', 'chance_of_playing_next_round']
     
-
-
-
-
-
-    # Creating lagged features, removing the features that are not relevant for the model
-    meta_data = ['name', 'position', 'GW']
-    lagged_features = [feature for feature in lagged_features if feature not in meta_data]  
-
-    combined_rows = []
-
-    for name, group in df.groupby('name'):
-            combined_row = {}
-            combined_row['name'] = name
-            for i in range(NUM_LAGS):
-                if i < len(group):
-                    row = group.iloc[i]
-                    for feature in lagged_features:
-                        combined_row[f'{feature}_lag{i+1}'] = row[feature]
-                else:
-                    for feature in lagged_features:
-                        combined_row[f'{feature}_lag{i+1}'] = pd.NA
-
-            combined_rows.append(combined_row)
-
-    df_combined = pd.DataFrame(combined_rows)
-
-    return df_combined
-
-
-
-def get_player_metadata() -> pd.DataFrame:
-    """"  
-    "output": pd.DataFrame - metadata of the players in the 24/25 season
-    """
-    #getting team info and current gameweek 
-    fpl_api_url = "https://fantasy.premierleague.com/api/bootstrap-static/"
-    static_response = requests.get(fpl_api_url)
-    if static_response.status_code != 200:
-        raise Exception(f"Failed to fetch data from {fpl_api_url}")
-    
-    metadata = ['first_name', 'second_name', 'id', 'team', 'element_type', 'now_cost' 'chance_of_playing_this_round', 'chance_of_playing_next_round']
-
-    df = pd.DataFrame(static_response.json()['elements'], columns=metadata)
+    df = pd.DataFrame(bootstrap_data['elements'], columns=metadata_cols)
     df.drop_duplicates(subset=['id'], keep='first', inplace=True)
 
     df['name'] = df['first_name'] + ' ' + df['second_name']
     df.drop(['first_name', 'second_name'], axis=1, inplace=True)
 
-    element_type_to_position = {
-        1: 'GK',
-        2: 'DEF',
-        3: 'MID',
-        4: 'FWD'
-    }
-
+    element_type_to_position = {1: 'GK', 2: 'DEF', 3: 'MID', 4: 'FWD'}
     df['position'] = df['element_type'].map(element_type_to_position)
-
-    print(df.head())
+    df.drop('element_type', axis=1, inplace=True)
     
     return df

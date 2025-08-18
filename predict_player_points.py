@@ -1,67 +1,95 @@
 import pandas as pd
-from utils.get_data import get_last_five_matches_player_data, get_upcoming_fixture_data, get_player_metadata
-
+import pickle
+from utils.get_data import get_historical_player_data, get_upcoming_fixture_data, get_player_metadata
+from pathlib import Path
+import requests
 # Constants for the columns in the fixture list
 
-fwd_data_df = get_last_five_matches_player_data("FWD")
-mid_data_df = get_last_five_matches_player_data("MID")
-def_data_df = get_last_five_matches_player_data("DEF")
-gk_data_df = get_last_five_matches_player_data("GK")    
+# Get the models
+models_dir = Path('models')
+models_dir.mkdir(exist_ok=True)
+try:
+    models = {}
+    positions = ['fwd', 'mid', 'def', 'gk']
+    for pos in positions:
+        file_path = models_dir / f'ngboost_{pos}_model.pkl'
+        with open(file_path, "rb") as f:
+            models[pos.upper()] = pickle.load(f)
 
-player_metadata_df = get_player_metadata()
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
 
+# Get the FPL API data
+fpl_api_url = "https://fantasy.premierleague.com/api/bootstrap-static/"
+response = requests.get(fpl_api_url)
+if response.status_code != 200:
+    raise Exception(f"Failed to fetch data from {fpl_api_url}")
+fpl_bootstrap_data = response.json()
+
+
+CURRENT_GW = next(event['id'] for event in fpl_bootstrap_data['events'] if event['is_current'])
+
+# Get data on the upcoming fixtures
 NUM_FIXTURES_AHEAD = 5
-completed_player_predictions = []
+fixture_list = get_upcoming_fixture_data(NUM_FIXTURES_AHEAD, fpl_bootstrap_data)
 
-fixture_list = get_upcoming_fixture_data(NUM_FIXTURES_AHEAD)
+# Get relevant historical player data for each position
+historic_data_by_position = {
+    "GK": get_historical_player_data("GK"),
+    "DEF": get_historical_player_data("DEF"),
+    "MID": get_historical_player_data("MID"),
+    "FWD": get_historical_player_data("FWD")
+    }
 
-for player in player_metadata_df:
-        
+# Get player metadata
+player_metadata_df = get_player_metadata(fpl_bootstrap_data)
+# Returns ['name', 'id', 'team', 'element_type', 'now_cost' 'chance_of_playing_this_round', 'chance_of_playing_next_round']
+
+# Create a DataFrame to hold the results
+results_df = player_metadata_df.copy()
+
+# Creating empty columns to hold the future predictions
+for i in range(1, NUM_FIXTURES_AHEAD + 1):
+    results_df[f'predicted_points_{i}'] = 0.0
+    results_df[f'predicted_points_distribution_{i}'] = None
+    results_df[f'predicted_points_distribution_{i}'] = results_df[f'predicted_points_distribution_{i}'].astype(object)
+
+for index, player in player_metadata_df.iterrows():
+
+    # Skip players who are not expected to play this round
+    if player["chance_of_playing_this_round"] == 0:
+        continue
+    
     position = player["position"]
 
-    if position == "FWD":
-        historic_player_data = fwd_data_df.loc[fwd_data_df['name'] == player["name"]]
-    elif position == "MID":
-        historic_player_data = mid_data_df.loc[mid_data_df['name'] == player["name"]]
-    elif position == "DEF":
-        historic_player_data = def_data_df.loc[def_data_df['name'] == player["name"]]
-    elif position == "GK":
-        historic_player_data = gk_data_df.loc[gk_data_df['name'] == player["name"]]
-    else:
-        raise ValueError("Invalid position")
-    
-    upcoming_fixtures = fixture_list[player["club"]]
+    model = models.get(position) 
+    if not model:
+        raise ValueError(f"Invalid position, {position} at index {index}\n")
 
-    player_df = player.copy()
+    historic_player_data = historic_data_by_position[position].loc[historic_data_by_position[position]['name'] == player["name"]]
+
+    upcoming_fixtures = fixture_list[player["club"]]
 
     for i in range(NUM_FIXTURES_AHEAD):
         
-        fixture = pd.DataFrame(upcoming_fixtures[i], columns=["was_home", "strength_difference", "attack_strength_difference", "defense_strength_difference"])
+        upcoming_fixture_data = upcoming_fixtures[i]
 
-        X = pd.merge(historic_player_data, fixture)
+        # Check if we are at the end of the season
+        if upcoming_fixture_data.empty:
+            continue
+
+        # Make predictions!
+        X = pd.merge(historic_player_data, upcoming_fixture_data)
         X = X.drop(columns=["name"])
-        
-        #if position == "FWD":
-        #    model = fwd_model
-        #
-        #elif position == "MID":
-        #    model = mid_model
-        #
-        #elif position == "DEF":
-        #    model = def_model
-        #
-        #elif position == "GK":
-        #    model = gk_model
+        point_prediction = model.predict(X)
+        distribution_prediction = model.pred_dist(X)
 
-        #predicted_points = model.predict(X)
+        # Add the predictions to the result_df
+        results_df.loc[index, f'predicted_points_{i+1}'] = point_prediction[0]
+        results_df.loc[index, f'predicted_points_distribution_{i+1}'] = distribution_prediction
 
-        #player_df[f"predicted_points_{i}_leg_ahead"] = predicted_points
-    
-    completed_player_predictions.append(player_df)
-
-completed_player_predictions_df = pd.DataFrame(completed_player_predictions)
-
-completed_player_predictions_df.to_csv("predictions.csv", index=False)
+                     
+results_df.to_csv(f"predictions/predictions_week_{CURRENT_GW}.csv", index=False)
 
 
 
