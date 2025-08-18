@@ -31,14 +31,14 @@ CURRENT_GW = next(event['id'] for event in fpl_bootstrap_data['events'] if event
 
 # Get data on the upcoming fixtures
 NUM_FIXTURES_AHEAD = 5
-fixture_list = get_upcoming_fixture_data(NUM_FIXTURES_AHEAD, fpl_bootstrap_data)
+fixture_dict = get_upcoming_fixture_data(NUM_FIXTURES_AHEAD, fpl_bootstrap_data)
 
 # Get relevant historical player data for each position
 historic_data_by_position = {
-    "GK": get_historical_player_data("GK"),
-    "DEF": get_historical_player_data("DEF"),
-    "MID": get_historical_player_data("MID"),
-    "FWD": get_historical_player_data("FWD")
+    "GK":  get_historical_player_data("GK").set_index('name'),
+    "DEF": get_historical_player_data("DEF").set_index('name'),
+    "MID": get_historical_player_data("MID").set_index('name'),
+    "FWD": get_historical_player_data("FWD").set_index('name')
     }
 
 # Get player metadata
@@ -66,20 +66,20 @@ for index, player in player_metadata_df.iterrows():
     if not model:
         raise ValueError(f"Invalid position, {position} at index {index}\n")
 
-    historic_player_data = historic_data_by_position[position].loc[historic_data_by_position[position]['name'] == player["name"]]
+    historic_player_df = historic_data_by_position[position].loc[historic_data_by_position[position]['name'] == player['name']]
 
-    upcoming_fixtures = fixture_list[player["club"]]
+    team_id = player["team"]
+    upcoming_fixtures_for_player = fixture_dict.get(team_id, []) 
 
-    for i in range(NUM_FIXTURES_AHEAD):
-        
-        upcoming_fixture_data = upcoming_fixtures[i]
+    for i, fixture_data_list in enumerate(upcoming_fixtures_for_player):
+        if i >= NUM_FIXTURES_AHEAD: # Ensure we don't predict more than required
+            break
 
-        # Check if we are at the end of the season
-        if upcoming_fixture_data.empty:
-            continue
+        df_columns = ['was_home', 'strength_difference', 'attack_strength_difference', 'defence_strength_difference']
+        upcoming_fixture_df = pd.DataFrame([fixture_data_list], columns=df_columns)
 
         # Make predictions!
-        X = pd.merge(historic_player_data, upcoming_fixture_data)
+        X = pd.merge(historic_player_df, upcoming_fixture_df)
         X = X.drop(columns=["name"])
         point_prediction = model.predict(X)
         distribution_prediction = model.pred_dist(X)
@@ -88,7 +88,8 @@ for index, player in player_metadata_df.iterrows():
         results_df.loc[index, f'predicted_points_{i+1}'] = point_prediction[0]
         results_df.loc[index, f'predicted_points_distribution_{i+1}'] = distribution_prediction
 
-                     
+output_dir = Path('predictions')
+output_dir.mkdir(exist_ok=True)            
 results_df.to_csv(f"predictions/predictions_week_{CURRENT_GW}.csv", index=False)
 
 

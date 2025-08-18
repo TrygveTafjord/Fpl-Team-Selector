@@ -1,49 +1,40 @@
 import pandas as pd
+from urllib.error import URLError
 import requests
 from feature_selection_config import fpl_features_by_position, fpl_lagged_features_by_position, fpl_features_to_smooth_by_position
+import collections
 
 
 def get_upcoming_fixture_data(num_fixtures: int, bootstrap_data: dict) -> dict:
 
-    df_teams = pd.DataFrame(bootstrap_data['teams'])
+    all_fixtures_url = "https://fantasy.premierleague.com/api/fixtures/"
+    response = requests.get(all_fixtures_url)
+    response.raise_for_status() # Replaces the need for status code check
+    all_fixtures = response.json()
+
+    df_teams = pd.DataFrame(bootstrap_data['teams']).set_index('id')
     current_gw = next(event['id'] for event in bootstrap_data['events'] if event['is_current'])
 
-    gw_fixtures_list = []
+    # 2. Filter fixtures for the desired gameweeks
+    upcoming_gws = range(current_gw, current_gw + num_fixtures)
+    upcoming_fixtures = [f for f in all_fixtures if f['event'] in upcoming_gws]
 
-    #getting the fixtures for the upcoming gameweeks
-    for gw in range(current_gw, current_gw + num_fixtures):
-        fixtures_url = f"https://fantasy.premierleague.com/api/fixtures/?event={gw}"
-        gw_response = requests.get(fixtures_url)
-        if gw_response.status_code != 200:
-            raise Exception(f"Failed to fetch data from {fixtures_url}")
-        gw_fixtures_list.append(gw_response.json())
-    
-    #team_info_dictionary = {team_id : pd.DataFrame[was_home, strength_difference, attack_strenght_difference, defence_strenght_difference], [...] ...}
-    team_info_dictionary = {}
+    team_info_dictionary = collections.defaultdict(list)
 
-    for team_id in df_teams['id']:
-        team_info_dictionary[team_id] = pd.DataFrame(columns=[
-            'was_home',
-            'strength_difference',
-            'attack_strength_difference',
-            'defense_strength_difference'
+    for fixture in upcoming_fixtures: 
+        team_info_dictionary[fixture['team_h']].append([
+            True,
+            df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength'].values[0],
+            df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength_attack_home'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength_defence_away'].values[0],
+            df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength_defence_home'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength_attack_away'].values[0]
         ])
-
-    for fixtures in gw_fixtures_list: 
-        for fixture in fixtures:
-            team_info_dictionary[fixture['team_h']].append([
-                True,
-                df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength'].values[0],
-                df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength_attack_home'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength_defence_away'].values[0],
-                df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength_defence_home'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength_attack_away'].values[0]
-            ])
-            team_info_dictionary[fixture['team_a']].append([
-                False,
-                df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength'].values[0],
-                df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength_attack_away'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength_defence_home'].values[0],
-                df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength_defence_away'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength_attack_home'].values[0]
-            ])
-    
+        team_info_dictionary[fixture['team_a']].append([
+            False,
+            df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength'].values[0],
+            df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength_attack_away'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength_defence_home'].values[0],
+            df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength_defence_away'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength_attack_home'].values[0]
+        ])
+        
     return team_info_dictionary
 
 
@@ -53,21 +44,24 @@ def get_historical_player_data(position) -> pd.DataFrame:
     # Return a DataFrame with historical player data for the given position
     
     # Getting the relevant features for the given position from a dictionary in the feature_selection_config.py file
-    features = fpl_features_by_position[position],
+    features = fpl_features_by_position[position]
 
     url = f"https://raw.githubusercontent.com/vaastav/Fantasy-Premier-League/master/data/2025-26/gws/merged_gw.csv"
 
     #getting data from the 25/26 season 
     try:
-        df = pd.read_csv(url, usecols=feature)
-    except FileNotFoundError:
-        raise FileNotFoundError(f"Data for the {position} position not found in the specified URL: {url}")
+        df = pd.read_csv(url, usecols=features)
+    except URLError:
+        raise URLError(f"Data for the {position} position not found in the specified URL: {url}")
     
     df = df[df['position'] == position]
 
     num_gws = df['GW'].nunique()   
     #if the number of gameweeks is less than 5, we need to get the data from the 24/25 season as well 
-    NUM_LAGS = 5 
+    
+    ROLLING_WINDOW = 5
+    FEATURE_LAG_COUNT = 2
+    NUM_LAGS = max(ROLLING_WINDOW, FEATURE_LAG_COUNT)
     if num_gws < NUM_LAGS:
         df['season'] = '2024-25'
         url = f"https://raw.githubusercontent.com/vaastav/Fantasy-Premier-League/master/data/2024-25/gws/merged_gw.csv"
@@ -96,31 +90,30 @@ def get_historical_player_data(position) -> pd.DataFrame:
     HAUL_THRESHOLD = 8
     BLANK_THRESHOLD = 3
     df['hauls_roll5'] = df.groupby('name')['total_points'].transform(
-        lambda x: x.rolling(window=NUM_LAGS, min_periods=1).apply(lambda y: (y >= HAUL_THRESHOLD).sum())
+        lambda x: x.rolling(window=ROLLING_WINDOW, min_periods=1).apply(lambda y: (y >= HAUL_THRESHOLD).sum())
     )
 
     df['blanks_roll5'] = df.groupby('name')['total_points'].transform(
-        lambda x: x.rolling(window=NUM_LAGS, min_periods=1).apply(lambda y: (y < BLANK_THRESHOLD).sum())
+        lambda x: x.rolling(window=ROLLING_WINDOW, min_periods=1).apply(lambda y: (y < BLANK_THRESHOLD).sum())
     )
 
     features_to_smooth = fpl_features_to_smooth_by_position[position]
     for feature in features_to_smooth:
         df[f'{feature}_ewma'] = df.groupby('name')[feature].transform(
-            lambda x: x.ewm(span=NUM_LAGS, adjust=False).mean()
+            lambda x: x.ewm(span=ROLLING_WINDOW, adjust=False).mean()
         )
 
     features_to_lag = fpl_lagged_features_by_position[position]
 
-    NUM_LAGS = 2
     for feature in features_to_lag:
-        for i in range(1, NUM_LAGS + 1):
+        for i in range(1, FEATURE_LAG_COUNT + 1):
             # Create a new column with lagged values
             df[f'{feature}_lag{i}'] = df.groupby('name')[feature].shift(i-1)
     
     # Finalize Feature Set 
     ewma_cols = [f'{f}_ewma' for f in features_to_smooth]
     lag_cols = []
-    for i in range(1, NUM_LAGS + 1):
+    for i in range(1, FEATURE_LAG_COUNT + 1):
         lag_cols.extend([f'{f}_lag{i}' for f in features_to_lag])
 
     variance_cols = ['points_std_roll5', 'hauls_roll5', 'blanks_roll5']
