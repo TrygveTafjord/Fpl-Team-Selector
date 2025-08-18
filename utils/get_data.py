@@ -48,9 +48,6 @@ def get_upcoming_fixture_data(num_fixtures: int, bootstrap_data: dict) -> dict:
 
 
 
-
-
-
 def get_historical_player_data(position) -> pd.DataFrame:
 
     # Return a DataFrame with historical player data for the given position
@@ -134,6 +131,9 @@ def get_historical_player_data(position) -> pd.DataFrame:
     df_final = df_final.fillna(0) 
     
     return df_final
+
+
+
 
 def get_player_metadata(bootstrap_data: dict) -> pd.DataFrame:
 
