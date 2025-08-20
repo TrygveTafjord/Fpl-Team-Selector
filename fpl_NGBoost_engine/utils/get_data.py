@@ -21,18 +21,29 @@ def get_upcoming_fixture_data(num_fixtures: int, bootstrap_data: dict) -> dict:
 
     team_info_dictionary = collections.defaultdict(list)
 
-    for fixture in upcoming_fixtures: 
-        team_info_dictionary[fixture['team_h']].append([
+    for fixture in upcoming_fixtures:
+        # Get team IDs
+        home_team_id = fixture['team_h']
+        away_team_id = fixture['team_a']
+
+        # Using index for fast, direct lookups
+        home_stats = df_teams.loc[home_team_id]
+        away_stats = df_teams.loc[away_team_id]
+
+        # append data for the home
+        team_info_dictionary[home_team_id].append([
             True,
-            df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength'].values[0],
-            df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength_attack_home'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength_defence_away'].values[0],
-            df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength_defence_home'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength_attack_away'].values[0]
+            home_stats['strength'] - away_stats['strength'],
+            home_stats['strength_attack_home'] - away_stats['strength_defence_away'],
+            home_stats['strength_defence_home'] - away_stats['strength_attack_away']
         ])
-        team_info_dictionary[fixture['team_a']].append([
+
+        # append data for the away team 
+        team_info_dictionary[away_team_id].append([
             False,
-            df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength'].values[0],
-            df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength_attack_away'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength_defence_home'].values[0],
-            df_teams.loc[df_teams['id'] == fixture['team_a'], 'strength_defence_away'].values[0] - df_teams.loc[df_teams['id'] == fixture['team_h'], 'strength_attack_home'].values[0]
+            away_stats['strength'] - home_stats['strength'],
+            away_stats['strength_attack_away'] - home_stats['strength_defence_home'],
+            away_stats['strength_defence_away'] - home_stats['strength_attack_home']
         ])
         
     return team_info_dictionary
@@ -40,9 +51,7 @@ def get_upcoming_fixture_data(num_fixtures: int, bootstrap_data: dict) -> dict:
 
 
 def get_historical_player_data(position) -> pd.DataFrame:
-
-    # Return a DataFrame with historical player data for the given position
-    
+        
     # Getting the relevant features for the given position from a dictionary in the feature_selection_config.py file
     features = fpl_features_by_position[position]
 

@@ -66,7 +66,11 @@ for index, player in player_metadata_df.iterrows():
     if not model:
         raise ValueError(f"Invalid position, {position} at index {index}\n")
 
-    historic_player_df = historic_data_by_position[position].loc[historic_data_by_position[position]['name'] == player['name']]
+    try:
+        historic_player_data_df = historic_data_by_position[position].loc[[player['name']]]
+    except KeyError:
+        # Handle cases where a player has no historical data (e.g., new to the league)
+        continue
 
     team_id = player["team"]
     upcoming_fixtures_for_player = fixture_dict.get(team_id, []) 
@@ -79,7 +83,10 @@ for index, player in player_metadata_df.iterrows():
         upcoming_fixture_df = pd.DataFrame([fixture_data_list], columns=df_columns)
 
         # Make predictions!
-        X = pd.merge(historic_player_df, upcoming_fixture_df)
+        X = pd.concat([
+                        historic_player_data_df.reset_index(drop=True),
+                        upcoming_fixture_df.reset_index(drop=True)
+                    ], axis=1)
         X = X.drop(columns=["name"])
         point_prediction = model.predict(X)
         distribution_prediction = model.pred_dist(X)
@@ -91,6 +98,8 @@ for index, player in player_metadata_df.iterrows():
 output_dir = Path('predictions')
 output_dir.mkdir(exist_ok=True)            
 results_df.to_csv(f"predictions/predictions_week_{CURRENT_GW}.csv", index=False)
+
+
 
 
 
