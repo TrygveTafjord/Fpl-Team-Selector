@@ -6,7 +6,7 @@ def create_player_histogram_dict(data_path: Path) -> dict:
 
     print("Starting data loading and processing...")
     
-    histogram_features = ['name', 'total_points', 'position']
+    histogram_features = ['name', 'total_points', 'position', 'minutes']
 
     try:
         # Loading data from previous seasons 
@@ -25,6 +25,8 @@ def create_player_histogram_dict(data_path: Path) -> dict:
         return {}
 
     df_all_seasons = pd.concat([df_22_23, df_23_24], ignore_index=True)
+    
+    df_all_seasons = df_all_seasons[df_all_seasons['minutes'] > 0]
 
     # Filter for players active in the upcoming season 
     df_filtered = df_all_seasons[df_all_seasons['name'].isin(current_players)].copy()

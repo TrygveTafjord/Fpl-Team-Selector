@@ -2,9 +2,12 @@ import pandas as pd
 import pymc as pm
 import arviz as az
 import numpy as np
+import pytensor.tensor as pt 
 import matplotlib.pyplot as plt
 import pytensor
 from pathlib import Path
+import seaborn as sns
+from scipy.stats import nbinom
 from sklearn.preprocessing import StandardScaler
 
 
@@ -43,57 +46,63 @@ def prepare_player_data(master_df: pd.DataFrame, player_name: str):
 
 
 def define_bimodal_model(X: pd.DataFrame, y: pd.Series, features: list):
-
-    print(f"\n--- Step 3: Defining the Bayesian Bimodal Model ---")
+    """
+    Defines a more robust Bayesian bimodal model with stronger, more informative priors
+    to better replicate the distinct peaks seen in frequentist fits.
+    """
+    print(f"\n--- Step 3: Defining the Bayesian Bimodal Model with Strong Priors ---")
     
     with pm.Model() as bimodal_model:
         # --- Priors for the regression coefficients (betas) ---
-        # We need separate coefficients for each component of the mixture
         
-        # In define_bimodal_model function...
-
         # 1. Priors for the "Haul" probability (w) regression
-        beta_w_intercept = pm.Normal('beta_w_intercept', mu=0.5, sigma=0.5)
+        # A mean of -1.5 on the logit scale corresponds to a probability of sigmoid(-1.5) ~= 18%.
+        # This reflects that hauls are less common than blanks.
+        beta_w_intercept = pm.Normal('beta_w_intercept', mu=-1.5, sigma=0.5)
         beta_w_coeffs = pm.Normal('beta_w_coeffs', mu=0.0, sigma=0.5, shape=len(features))
 
         # 2. Priors for the "Blank" component (mu1) regression
-        beta_blank_intercept = pm.Normal('beta_blank_intercept', mu=np.log(2), sigma=1.0) 
-        beta_blank_coeffs = pm.Normal('beta_blank_coeffs', mu=0.0, sigma=1.0, shape=len(features))
+        # Centered on a mean of ~2 points (log(2) ~= 0.7)
+        beta_blank_intercept = pm.Normal('beta_blank_intercept', mu=np.log(2.5), sigma=0.25) 
+        beta_blank_coeffs = pm.Normal('beta_blank_coeffs', mu=0.0, sigma=0.5, shape=len(features))
 
-        # 3. Priors for the "Haul" component (mu2) regression
-        beta_haul_intercept = pm.Normal('beta_haul_intercept', mu=np.log(8), sigma=1.0)
-        beta_haul_coeffs = pm.Normal('beta_haul_coeffs', mu=0.0, sigma=1.0, shape=len(features))
+        # 3. Priors for the "Haul" component (mu2) OFFSET regression
+        # A haul adds about 7-8 points to a blank. We'll center the log-offset there.
+        # We use a very tight sigma (0.2) to strongly discourage the offset from becoming small.
+        beta_haul_offset_intercept = pm.Normal('beta_haul_intercept', mu=np.log(7.5), sigma=0.2)
+        beta_haul_offset_coeffs = pm.Normal('beta_offset_coeffs', mu=0.0, sigma=0.5, shape=len(features))
 
-        # Priors for the dispersion parameters (alpha) 
-        alpha_blank = pm.Exponential('alpha_blank', 1.0)
-        alpha_haul = pm.Exponential('alpha_haul', 1.0)
+        # Priors for the dispersion parameters (alpha)
+        # HalfNormal priors prevent alphas from becoming too large, keeping the peaks defined.
+        alpha_blank = pm.HalfNormal('alpha_blank', sigma=0.5)
+        alpha_haul = pm.HalfNormal('alpha_haul', sigma=1.0) # Hauls can have more variance
 
-        # Link Functions (Regression Equations) 
-        # These equations connect the features to the distribution parameters
+        # --- Link Functions (Regression Equations) ---
         
         # Equation for the probability of a haul (w)
         w_logit = beta_w_intercept + pm.math.dot(X.values, beta_w_coeffs)
-        w = pm.Deterministic('w', pm.math.sigmoid(w_logit)) # Sigmoid transforms to a probability (0-1)
+        w = pm.Deterministic('w', pm.math.sigmoid(w_logit))
         
         # Equation for the mean of the "Blank" component (mu1)
         mu_blank_log = beta_blank_intercept + pm.math.dot(X.values, beta_blank_coeffs)
-        mu_blank = pm.Deterministic('mu_blank', pm.math.exp(mu_blank_log)) # Exp transforms back from log scale
+        mu_blank = pm.Deterministic('mu_blank', pm.math.exp(mu_blank_log))
         
         # Equation for the mean of the "Haul" component (mu2)
-        mu_haul_log = beta_haul_intercept + pm.math.dot(X.values, beta_haul_coeffs)
-        mu_haul = pm.Deterministic('mu_haul', pm.math.exp(mu_haul_log))
+        mu_haul_offset_log = beta_haul_offset_intercept + pm.math.dot(X.values, beta_haul_offset_coeffs)
+        mu_haul = pm.Deterministic('mu_haul', mu_blank + pm.math.exp(mu_haul_offset_log))
 
-        # Likelihood Function 
-        # This is the Negative Bimodal distribution that generates the observed points
-        # It's a mixture of two Negative Binomial distributions
+        # --- Likelihood Function ---
         
         nb_blank = pm.NegativeBinomial.dist(mu=mu_blank, alpha=alpha_blank)
         nb_haul = pm.NegativeBinomial.dist(mu=mu_haul, alpha=alpha_haul)
         
+        # The mixture weight matrix needs to have shape (n_observations, n_components)
+        weights = pt.stack([1.0 - w, w], axis=1)
+
         # The observed total_points are drawn from this mixture
         total_points_likelihood = pm.Mixture(
             'total_points_likelihood', 
-            w=pm.math.stack([1.0 - w, w]).T, 
+            w=weights, 
             comp_dists=[nb_blank, nb_haul],
             observed=y.values
         )
@@ -101,63 +110,77 @@ def define_bimodal_model(X: pd.DataFrame, y: pd.Series, features: list):
     print("Model definition complete.")
     return bimodal_model
 
-def plot_posterior_predictive(idata, fpl_model, y, player_name):
+def create_frequentist_style_plot(player_name, idata, y_player, X_player_scaled):
     """
-    Generates and plots the posterior predictive distribution against the
-    actual historical data histogram.
+    Creates and saves a plot for the Bayesian model that mimics the style of the frequentist plots.
+    This function is called right after model inference is complete.
     """
-    print("\n--- Generating Posterior Predictive Plot ---")
-
-    # Generate posterior predictive samples
-    with fpl_model:
-        posterior_predictive = pm.sample_posterior_predictive(idata)
-
-    # Extract the simulated scores
-    simulated_scores = posterior_predictive.posterior_predictive['total_points_likelihood']
-
-    # Set the plot limit to the 99.9th percentile of the simulated data
-    plot_limit = int(np.percentile(simulated_scores, 99.9))
-    max_score = max(y.max(), plot_limit, 25)
-    score_range = np.arange(max_score + 1)
-
-    # Reshape the data
-    n_chains = simulated_scores.sizes['chain']
-    n_draws = simulated_scores.sizes['draw']
-    simulated_scores_reshaped = simulated_scores.values.reshape(n_chains * n_draws, -1)
-
-    # --- THIS IS THE FIX ---
-    # We clip the simulated scores to max_score. This prevents bincount from creating
-    # arrays of different lengths when it encounters an outlier.
-    avg_pred_pmf = np.mean([
-        np.bincount(np.clip(game_samples, 0, max_score), minlength=len(score_range)) / len(game_samples)
-        for game_samples in simulated_scores_reshaped.T
-    ], axis=0)
-    # --- END FIX ---
-
-    # Create the plot
-    fig, ax = plt.subplots(figsize=(12, 7))
-
-    ax.hist(y, bins=np.arange(y.max() + 2) - 0.5, density=True,
-            color='skyblue', edgecolor='black', alpha=0.7, label='Historical Actual Scores')
-
-    ax.plot(score_range, avg_pred_pmf, 'o-', color='red',
-            label='Model Posterior Predictive')
+    print("\n--- Generating Frequentist-Style Plot ---")
     
-    ax.set_xlim(-1, max_score + 1)
+    # Create a figure and axes for the plot
+    fig, ax = plt.subplots(figsize=(8, 7))
 
-    ax.set_title(f'Posterior Predictive Check for {player_name}', fontsize=16)
-    ax.set_xlabel('Total Points', fontsize=12)
-    ax.set_ylabel('Probability', fontsize=12)
-    ax.legend()
+    # 1. Plot the original histogram (using frequency, not density)
+    total_games = len(y_player)
+    # Using seaborn for a slightly cleaner look, but ax.hist would also work
+    import seaborn as sns
+    sns.histplot(y_player, ax=ax, bins=np.arange(0, y_player.max() + 2) - 0.5, 
+                 color='skyblue', stat='count', label='Observed Data')
+
+    # 2. Extract the mean posterior parameters for an "average" match
+    posterior = idata.posterior
+    avg_features = X_player_scaled.mean(axis=0).values
+
+    w_coeffs_dot = np.einsum('k,cdk->cd', avg_features, posterior['beta_w_coeffs'])
+    w_logit_samples = posterior['beta_w_intercept'] + w_coeffs_dot
+    avg_w = (1 / (1 + np.exp(-w_logit_samples))).mean().item()
+
+    blank_coeffs_dot = np.einsum('k,cdk->cd', avg_features, posterior['beta_blank_coeffs'])
+    mu_blank_log_samples = posterior['beta_blank_intercept'] + blank_coeffs_dot
+    avg_mu_blank = np.exp(mu_blank_log_samples).mean().item()
+    
+    haul_offset_coeffs_dot = np.einsum('k,cdk->cd', avg_features, posterior['beta_offset_coeffs'])
+    mu_haul_offset_log_samples = posterior['beta_haul_intercept'] + haul_offset_coeffs_dot
+    avg_mu_haul = (np.exp(mu_blank_log_samples) + np.exp(mu_haul_offset_log_samples)).mean().item()
+
+    avg_alpha_blank = posterior['alpha_blank'].mean().item()
+    avg_alpha_haul = posterior['alpha_haul'].mean().item()
+
+    # 3. Plot the fitted distribution and its components
+    x_plot = np.arange(0, y_player.max() + 5)
+    
+    p_blank = avg_alpha_blank / (avg_alpha_blank + avg_mu_blank)
+    comp1_pmf = (1 - avg_w) * nbinom.pmf(x_plot, n=avg_alpha_blank, p=p_blank)
+    ax.plot(x_plot, comp1_pmf * total_games, color='darkorange', linestyle='--', label=f'Blank (μ={avg_mu_blank:.1f})')
+    
+    p_haul = avg_alpha_haul / (avg_alpha_haul + avg_mu_haul)
+    comp2_pmf = avg_w * nbinom.pmf(x_plot, n=avg_alpha_haul, p=p_haul)
+    ax.plot(x_plot, comp2_pmf * total_games, color='purple', linestyle='--', label=f'Haul (μ={avg_mu_haul:.1f})')
+
+    fitted_pmf = comp1_pmf + comp2_pmf
+    ax.plot(x_plot, fitted_pmf * total_games, color='red', linewidth=2.5, label='Fitted Bimodal Dist.')
+
+    # 4. Final plot formatting
+    avg_score = y_player.mean()
+    ax.set_title(f"{player_name}\n(Avg: {avg_score:.2f} over {total_games} games)")
     ax.grid(axis='y', linestyle='--', alpha=0.7)
+    ax.set_xticks(np.arange(0, y_player.max() + 2, step=max(1, ((y_player.max() + 1) // 5))))
+    ax.legend(fontsize='small')
+    ax.set_xlabel("Points in a Gameweek")
+    ax.set_ylabel("Frequency (Counts)")
     
-    plt.savefig(f"{player_name}_posterior_predictive.png")
-    print(f"Posterior predictive plot saved to {player_name}_posterior_predictive.png")
+    # Save the figure
+    output_filename = f"{player_name}_bayesian_fit_plot.png"
+    plt.tight_layout()
+    plt.savefig(output_filename)
+    print(f"Plot saved to {output_filename}")
+    plt.close() # Close the plot to free up memory
+
 
 if __name__ == "__main__":
     # Define paths and player to model
     DATA_PATH = Path("../data/processed/master_feature_dataset.csv")
-    PLAYER_TO_MODEL = "Erling Haaland"
+    PLAYER_TO_MODEL = "Mohamed Salah"
 
     try:
         # Load the master dataset
@@ -185,7 +208,7 @@ if __name__ == "__main__":
         print(summary)
         
         # NEW: Plot the posterior predictive check
-        plot_posterior_predictive(idata, fpl_model, y_player, PLAYER_TO_MODEL)
+        create_frequentist_style_plot(PLAYER_TO_MODEL, idata, y_player, X_player)
 
     except FileNotFoundError:
         print(f"Error: Master dataset not found at {DATA_PATH}")
