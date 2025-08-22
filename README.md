@@ -61,7 +61,7 @@ $w_{i} = \text{sigmoid}(\text{logit}(w_{i})) = \frac{1}{1+e^{-(\beta_{w,\text{in
 
 **B. Blank Mean ($\mu_{blank,i}$)**
 
-The mean of the "Blank" distribution is modeled using a log link function:
+The mean of the "Blank" distribution is modeled using a log link function (log to ensure positive mean for the negative bimodal distribution:
 
 $\log(\mu_{\text{blank},i}) = \beta_{\text{blank,intercept}} + X_{i}\beta_{\text{blank,coeffs}}$
 
