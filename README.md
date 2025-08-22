@@ -83,25 +83,25 @@ Priors are placed on all unknown parameters of the model.
 
 Haul Probability Priors:
 
-$\beta_{w, \text{intercept}} \sim \mathcal{N}(-1.5, 0.5^2)$
-$\beta_{w, \text{coeffs}} \sim \mathcal{N}(0, 0.5^2)$
+$\beta_{w, \text{intercept}} \sim \mathcal{N}(a_{1}, b_{1})$
+$\beta_{w, \text{coeffs}} \sim \mathcal{N}(a_{2}, b_{2})$
 
 Blank Mean Priors:
 
-$\beta_{\text{blank}, \text{intercept}} \sim \mathcal{N}(\log(2.5), 0.25^2)$
-$\beta_{\text{blank}, \text{coeffs}} \sim \mathcal{N}(0, 0.5^2)$
+$\beta_{\text{blank}, \text{intercept}} \sim \mathcal{N}(\log(a_{3}), b_{3})$
+$\beta_{\text{blank}, \text{coeffs}} \sim \mathcal{N}(a_{4}, b_{4})$
 
 Haul Offset Priors:
 
-$\beta_{\text{haul}, \text{intercept}} \sim \mathcal{N}(\log(7.5), 0.2^2)$
-$\beta_{\text{haul}, \text{coeffs}} \sim \mathcal{N}(0, 0.5^2)$
+$\beta_{\text{haul}, \text{intercept}} \sim \mathcal{N}(\log(a_{5}), b_{5})$
+$\beta_{\text{haul}, \text{coeffs}} \sim \mathcal{N}(a_{6}, b_{6})$
 
 **B. Dispersion Parameters (α)**
 
 Blank Dispersion:
 
-$\alpha_{\text{blank}} \sim \text{HalfNormal}(0,0.5)$
+$\alpha_{\text{blank}} \sim \text{HalfNormal}(a_{7}, b_{7})$
 
 Haul Dispersion:
 
-$\alpha_{\text{haul}} \sim \text{HalfNormal}(0,1.0)$
+$\alpha_{\text{haul}} \sim \text{HalfNormal}(a_{8}, b_{8})$
