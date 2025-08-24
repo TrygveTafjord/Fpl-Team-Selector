@@ -15,7 +15,8 @@ def create_master_dataset(seasons: list, data_path: Path) -> pd.DataFrame:
     # [cite: fwd.py]
     features_to_load = [
         'name', 'team', 'minutes', 'ict_index', 
-        'total_points', 'opponent_team', 'was_home', 'GW'
+        'total_points', 'opponent_team', 'was_home', 
+        'GW', 'position', 'value',
     ]
 
     # Load and combine data for all specified seasons
@@ -53,10 +54,11 @@ def create_master_dataset(seasons: list, data_path: Path) -> pd.DataFrame:
     ]
     team_info_df_22_23 = pd.read_csv(f"../data/historic_data/2022-23/teams.csv", usecols=team_info_cols)
     team_info_df_23_24 = pd.read_csv(f"../data/historic_data/2023-24/teams.csv", usecols=team_info_cols)
+    team_info_df_24_25 = pd.read_csv(f"../data/historic_data/2024-25/teams.csv", usecols=team_info_cols)
 
     # This loop is slow; a merge would be faster but this is functionally correct
     for index, row in df.iterrows():
-        team_info_df = team_info_df_22_23 if row['season'] == '2022-23' else team_info_df_23_24 
+        team_info_df = team_info_df_22_23 if row['season'] == '2022-23' else team_info_df_23_24 if row['season'] == '2023-24' else team_info_df_24_25
         own_team_info = team_info_df[team_info_df['name'] == row['team']].iloc[0]
         opp_team_info = team_info_df[team_info_df['id'] == row['opponent_team']].iloc[0]
         if row['was_home']:
@@ -90,6 +92,8 @@ def create_master_dataset(seasons: list, data_path: Path) -> pd.DataFrame:
         'name',
         'season',
         'GW',
+        'position',
+        'value',
         # Match-related features
         'strength_difference',
         'attack_strength_difference',
@@ -115,7 +119,7 @@ def create_master_dataset(seasons: list, data_path: Path) -> pd.DataFrame:
 
 if __name__ == "__main__":
     # Define the seasons you want to include in the dataset
-    SEASONS_TO_PROCESS = ['2022-23', '2023-24']
+    SEASONS_TO_PROCESS = ['2022-23', '2023-24', '2024-25']
     
     # Define the base path to your data directory
     # Assumes a structure like: your_project/data/SEASON/

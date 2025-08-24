@@ -6,7 +6,6 @@ import pytensor.tensor as pt
 import matplotlib.pyplot as plt
 import pytensor
 from pathlib import Path
-import seaborn as sns
 from scipy.stats import nbinom
 from sklearn.preprocessing import StandardScaler
 
@@ -55,7 +54,7 @@ def define_bimodal_model(X: pd.DataFrame, y: pd.Series, features: list):
     with pm.Model() as bimodal_model:
         # --- Priors for the regression coefficients (betas) ---
         
-        # 1. Priors for the "Haul" probability (w) regression
+        #  Priors for the "Haul" probability (w) regression
         # A mean of -1.5 on the logit scale corresponds to a probability of sigmoid(-1.5) ~= 18%.
         # This reflects that hauls are less common than blanks.
         beta_w_intercept = pm.Normal('beta_w_intercept', mu=-1.5, sigma=0.5)
@@ -77,7 +76,7 @@ def define_bimodal_model(X: pd.DataFrame, y: pd.Series, features: list):
         alpha_blank = pm.HalfNormal('alpha_blank', sigma=0.5)
         alpha_haul = pm.HalfNormal('alpha_haul', sigma=1.0) # Hauls can have more variance
 
-        # --- Link Functions (Regression Equations) ---
+        # Link Functions (Regression Equations) 
         
         # Equation for the probability of a haul (w)
         w_logit = beta_w_intercept + pm.math.dot(X.values, beta_w_coeffs)
@@ -91,7 +90,7 @@ def define_bimodal_model(X: pd.DataFrame, y: pd.Series, features: list):
         mu_haul_offset_log = beta_haul_offset_intercept + pm.math.dot(X.values, beta_haul_offset_coeffs)
         mu_haul = pm.Deterministic('mu_haul', mu_blank + pm.math.exp(mu_haul_offset_log))
 
-        # --- Likelihood Function ---
+        # Likelihood Function 
         
         nb_blank = pm.NegativeBinomial.dist(mu=mu_blank, alpha=alpha_blank)
         nb_haul = pm.NegativeBinomial.dist(mu=mu_haul, alpha=alpha_haul)
@@ -180,20 +179,16 @@ def create_frequentist_style_plot(player_name, idata, y_player, X_player_scaled)
 if __name__ == "__main__":
     # Define paths and player to model
     DATA_PATH = Path("../data/processed/master_feature_dataset.csv")
-    PLAYER_TO_MODEL = "Mohamed Salah"
+    PLAYER_TO_MODEL = "Bukayo Saka"
 
     try:
         # Load the master dataset
         master_df = pd.read_csv(DATA_PATH)
-
-        # --- Step 2 ---
+ 
         X_player, y_player, feature_names = prepare_player_data(master_df, PLAYER_TO_MODEL)
-
-        # --- Step 3 ---
+ 
         fpl_model = define_bimodal_model(X_player, y_player, feature_names)
 
-        # --- Step 4: Run the MCMC Inference ---
-        # This is the step that trains the model. It can take a few minutes.
         print("\n--- Step 4: Running MCMC Inference ---")
         with fpl_model:
             # The 'idata' object will contain all the results
@@ -201,13 +196,12 @@ if __name__ == "__main__":
         
         print("\nInference complete.")
 
-        # --- Step 5: Analyze and Visualize Results ---
         print("\n--- Step 5: Analyzing Results ---")
         # Print a summary of the posterior distributions for key parameters
         summary = az.summary(idata, var_names=['beta_w_intercept', 'beta_blank_intercept', 'beta_haul_intercept', 'alpha_blank', 'alpha_haul'])
         print(summary)
         
-        # NEW: Plot the posterior predictive check
+        #Plot the posterior predictive check
         create_frequentist_style_plot(PLAYER_TO_MODEL, idata, y_player, X_player)
 
     except FileNotFoundError:
