@@ -92,8 +92,8 @@ def define_bimodal_model(X: pd.DataFrame, y: pd.Series, features: list):
 
         # Likelihood Function 
         
-        nb_blank = pm.NegativeBinomial.dist(mu=mu_blank, alpha=alpha_blank)
-        nb_haul = pm.NegativeBinomial.dist(mu=mu_haul, alpha=alpha_haul)
+        nb_blank = pm.Poisson.dist(mu=mu_blank, alpha=alpha_blank)
+        nb_haul = pm.Poisson.dist(mu=mu_haul, alpha=alpha_haul)
         
         # The mixture weight matrix needs to have shape (n_observations, n_components)
         weights = pt.stack([1.0 - w, w], axis=1)
