@@ -152,15 +152,14 @@ def define_price_hierarchical_model(data: Dict[str, Any]) -> pm.Model:
         # Link Functions & Likelihood 
         w_logit = player_w_intercept + pm.math.dot(data["X_scaled"], beta_w_coeffs)
         w_unclipped = pm.math.sigmoid(w_logit)
-        w = pm.Deterministic('w', pm.math.clip(w_unclipped, epsilon, 1.0 - epsilon))
+        w = pm.math.clip(w_unclipped, epsilon, 1.0 - epsilon)
 
         mu_blank_log = player_blank_intercept + pm.math.dot(data["X_scaled"], beta_blank_coeffs)
         mu_blank_unbounded = pm.math.exp(mu_blank_log)
-        mu_blank = pm.Deterministic('mu_blank', pm.math.clip(mu_blank_unbounded, epsilon, mu_max))
+        mu_blank = pm.math.clip(mu_blank_unbounded, epsilon, mu_max)
         
         mu_haul_offset_log = player_haul_offset_intercept + pm.math.dot(data["X_scaled"], beta_offset_coeffs)
-        mu_haul_unbounded = mu_blank + pm.math.exp(mu_haul_offset_log)
-        mu_haul = pm.Deterministic('mu_haul', pm.math.clip(mu_haul_unbounded, epsilon, mu_max))
+        mu_haul = mu_blank + pm.math.exp(mu_haul_offset_log) 
 
         nb_blank = pm.NegativeBinomial.dist(mu=mu_blank, alpha=alpha_blank)
         nb_haul = pm.NegativeBinomial.dist(mu=mu_haul, alpha=alpha_haul)
@@ -172,8 +171,7 @@ def define_price_hierarchical_model(data: Dict[str, Any]) -> pm.Model:
             w=weights, 
             comp_dists=[nb_blank, nb_haul],
             observed=data["y"]
-        )
-        
+        )        
     return hierarchical_model
 
 
@@ -193,7 +191,7 @@ if __name__ == "__main__":
     # Train the model (this is the one and only inference step)
     print("\nStarting MCMC sampling... This may take a while.")
     with hierarchical_model:
-        idata = pm.sample(5000, tune=1000, chains=4, cores=7, target_accept=0.9, init="advi+adapt_diag")
+        idata = pm.sample(2000, tune=1000, chains=4, cores=7, target_accept=0.9, init="advi+adapt_diag")
     
     # Save the trained model and artifacts
     print("Sampling complete. Saving model and artifacts...")
