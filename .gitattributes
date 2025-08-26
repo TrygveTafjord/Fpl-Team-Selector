@@ -1,0 +1,2 @@
+fpl_bayesian_engine/models/*.nc filter=lfs diff=lfs merge=lfs -text
+fpl_bayesian_engine/models/*.pkl filter=lfs diff=lfs merge=lfs -text
