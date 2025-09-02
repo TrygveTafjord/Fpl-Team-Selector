@@ -1,697 +1,697 @@
-first_name,second_name,id
-David,Raya Martín,1
-Kepa,Arrizabalaga Revuelta,2
-Karl,Hein,3
-Tommy,Setford,4
-Gabriel,dos Santos Magalhães,5
-William,Saliba,6
-Riccardo,Calafiori,7
-Jurriën,Timber,8
-Jakub,Kiwior,9
-Myles,Lewis-Skelly,10
-Benjamin,White,11
-Oleksandr,Zinchenko,12
-Brayden,Clarke,13
-Maldini,Kacurri,14
-Josh,Nichols,15
-Bukayo,Saka,16
-Martin,Ødegaard,17
-Noni,Madueke,18
-Gabriel,Martinelli Silva,19
-Leandro,Trossard,20
-Declan,Rice,21
-Mikel,Merino Zazón,22
-Fábio,Ferreira Vieira,23
-Christian,Nørgaard,24
-Ethan,Nwaneri,25
-Martín,Zubimendi Ibáñez,26
-Reiss,Nelson,27
-Ismeal,Kabia,28
-Albert,Sambi Lokonga,29
-Kai,Havertz,30
-Gabriel,Fernando de Jesus,31
-Cristhian,Mosquera,662
-Viktor,Gyökeres,666
-Emiliano,Martínez Romero,32
-Marco,Bizot,33
-Joe,Gauci,34
-Filip,Marschall,35
-Matty,Cash,36
-Lucas,Digne,37
-Ezri,Konsa Ngoyo,38
-Ian,Maatsen,39
-Tyrone,Mings,40
-Pau,Torres,41
-Andrés,García,42
-Álex,Moreno Lopera,43
-Lamare,Bogarde,44
-Lino,da Cruz Sousa,45
-Yasin,Özcan,46
-Morgan,Rogers,47
-Youri,Tielemans,48
-Leon,Bailey,49
-Emiliano,Buendía Stati,50
-Samuel,Iling-Junior,51
-Donyell,Malen,53
-John,McGinn,54
-Ross,Barkley,55
-Enzo,Barrenechea,56
-Lewis,Dobbin,57
-Boubacar,Kamara,58
-Amadou,Onana,59
-Ben,Broggio,60
-Leander,Dendoncker,61
-Jamaldeen,Jimoh-Aloba,62
-Kadan,Young,63
-Ollie,Watkins,64
-Zépiqueno,Redmond,65
-Evann,Guessand,677
-James,Wright,688
-Max,Weiß,183
-Etienne,Green,184
-Václav,Hladký,185
-Connor,Roberts,186
-Kyle,Walker,187
-Hannes,Delcroix,188
-Owen,Dodgson,189
-Hjalmar,Ekdal,190
-Maxime,Estève,191
-Quilindschy,Hartman,192
-Bashir,Humphreys,193
-Jordan,Beyer,194
-Lucas,Pires Silva,195
-Shurandy,Sambo,196
-Oliver,Sonne,197
-Axel,Tuanzebe,198
-Joe,Worrall,199
-Jaidon,Anthony,200
-Manuel,Benson Hedilazio,201
-Jacob,Bruun Larsen,202
-Enock,Agyei,203
-Darko,Churlinov,204
-Josh,Cullen,205
-Marcus,Edwards,206
-Hannibal,Mejbri,207
-Luca,Koleosho,208
-Josh,Laurent,209
-Loum,Tchaouna,210
-Aaron,Ramsey,211
-Oluwaseun,Adewumi,212
-Jaydon,Banel,213
-Mike,Trésor Ndayishimiye,214
-Zian,Flemming,215
-Zeki,Amdouni,216
-Lyle,Foster,217
-Ashley,Barnes,218
-Michael,Obafemi,219
-Martin,Dúbravka,470
-Lesley,Ugochukwu,676
-Armando,Broja,680
-Norberto,Murara Neto,66
-Đorđe,Petrović,67
-Will,Dennis,68
-Callan,McKenna,69
-Alex,Paulsen,70
-Illia,Zabarnyi,71
-Marcos,Senesi Barón,72
-Adam,Smith,73
-Adrien,Truffert,74
-Matai,Akinmboni,75
-Owen,Bevan,76
-James,Hill,77
-Julián,Araujo Zúñiga,78
-Chris,Mepham,79
-Julio,Soler Barreto,80
-Justin,Kluivert,81
-Antoine,Semenyo,82
-Marcus,Tavernier,84
-Tyler,Adams,85
-David,Brooks,86
-Ryan,Christie,87
-Lewis,Cook,88
-Philip,Billing,89
-Alex,Scott,90
-Luis,Sinisterra Lucumí,91
-Romain,Faivre,92
-Hamed,Traorè,93
-Dominic,Sadi,94
-Zain,Silcott-Duberry,95
-Ben,Winterburn,96
-Francisco Evanilson,de Lima Barbosa,97
-Enes,Ünal,98
-Daniel,Adu-Adjei,99
-Eli Junior,Kroupi,100
-Ben,Doak,391
-Bafodé,Diakité,685
-Remy,Rees-Dottin,687
-Dango,Ouattara,83
-Caoimhín,Kelleher,101
-Ellery,Balcombe,102
-Matthew,Cox,103
-Julian,Eyestone,104
-Hákon Rafn,Valdimarsson,105
-Nathan,Collins,106
-Keane,Lewis-Potter,107
-Kristoffer,Ajer,108
-Rico,Henry,109
-Michael,Kayode,110
-Ethan,Pinnock,111
-Mads,Roerslev Rasmussen,112
-Sepp,van den Berg,113
-Benjamin,Arthur,114
-Benjamin,Fredrick,115
-Aaron,Hickey,116
-Kim,Ji-soo,117
-Jayden,Meghoma,118
-Kevin,Schade,120
-Mikkel,Damsgaard,121
-Antoni,Milambo,122
-Fábio,Freitas Gouveia Carvalho,123
-Jordan,Henderson,124
-Vitaly,Janelt,125
-Mathias,Jensen,126
-Gustavo,Nunes Fernandes Gomes,127
-Frank,Onyeka,128
-Yehor,Yarmoliuk,129
-Romelle,Donovan,130
-Yunus Emre,Konak,131
-Paris,Maghoma,132
-Myles,Peart-Harris,133
-Ryan,Trevitt,134
-Yoane,Wissa,135
-Igor Thiago,Nascimento Rodrigues,136
-Iwan,Morgan,137
-Jason,Steele,138
-Bart,Verbruggen,139
-Tom,McGill,140
-Carl,Rushworth,141
-Kjell,Scherpen,142
-Olivier,Boscagli,143
-Diego,Coppola,144
-Maxim,De Cuyper,145
-Lewis,Dunk,146
-Pervis,Estupiñán Tenorio,147
-Ferdi,Kadıoğlu,148
-Igor Julio,dos Santos de Paulo,149
-Tariq,Lamptey,150
-Jan Paul,van Hecke,151
-Joël,Veltman,152
-Adam,Webster,153
-Eiran,Cashin,154
-Jacob,Slater,155
-Charlie,Tasker,156
-Mitoma,Kaoru,157
-Georginio,Rutter,158
-Solly,March,159
-Yankuba,Minteh,160
-Julio,Enciso Espínola,161
-Brajan,Gruda,162
-Jack,Hinshelwood,163
-Matt,O'Riley,164
-Abdallah,Sima,165
-Yasin,Ayari,166
-Carlos,Baleba,167
-Facundo,Buonanotte,168
-Diego,Gómez Amarilla,169
-James,Milner,170
-Jeremy,Sarmiento Morante,171
-Tom,Watson,172
-Mats,Wieffer,173
-Malick,Yalcouyé,174
-Joe,Knight,175
-Adrian,Mazilu,176
-Andrew,Moran,177
-Danny,Welbeck,178
-Evan,Ferguson,179
-Stefanos,Tzimas,180
-Charalampos,Kostoulas,181
-Robert,Lynch Sánchez,220
-Filip,Jörgensen,221
-Mike,Penders,222
-Gabriel,Słonina,223
-Marc,Cucurella Saseta,224
-Reece,James,225
-Trevoh,Chalobah,226
-Levi,Samuels Colwill,227
-Malo,Gusto,228
-Benoît,Badiashile Mukinayi,229
-Wesley,Fofana,230
-Mamadou,Sarr,231
-Tosin,Adarabioyo,232
-Josh,Acheampong,233
-Aarón,Anselmino,234
-Cole,Palmer,235
-Pedro,Lomba Neto,236
-Enzo,Fernández,237
-Estêvão,Almeida de Oliveira Gonçalves,238
-Jamie,Bynoe-Gittens,239
-Christopher,Nkunku,240
-Moisés,Caicedo Corozo,241
-Tyrique,George,243
-Roméo,Lavia,244
-Mykhailo,Mudryk,245
-Andrey,Nascimento dos Santos,246
-Dário,Luís Essugo,247
-Kendry,Páez Andrade,248
-João Pedro,Junqueira de Jesus,249
-Liam,Delap,250
-Nicolas,Jackson,251
-Jorrel,Hato,672
-Dean,Henderson,253
-Walter,Benítez,254
-Remi,Matthews,255
-Daniel,Muñoz Mejía,256
-Maxence,Lacroix,257
-Tyrick,Mitchell,258
-Borna,Sosa,259
-Marc,Guéhi,260
-Chris,Richards,261
-Chadi,Riad Dnanou,262
-Nathaniel,Clyne,263
-Rob,Holding,264
-Caleb,Kporha,265
-Eberechi,Eze,266
-Ismaïla,Sarr,267
-Cheick,Doucouré,268
-Romain,Esse,269
-Will,Hughes,270
-Daichi,Kamada,271
-Jefferson,Lerma Solís,272
-Adam,Wharton,273
-Asher,Agbinone,274
-Naouirou,Ahamada,275
-Justin,Devenny,276
-Malcolm,Ebiowei,277
-Jesurun,Rak-Sakyi,278
-Matheus,França de Oliveira,279
-David,Ozoh,280
-Kaden,Rodney,281
-Franco,Umeh-Chibueze,282
-Jean-Philippe,Mateta,283
-Eddie,Nketiah,284
-Odsonne,Édouard,285
-Zach,Marsh,286
-Rio,Cardines,690
-Kiernan,Dewsbury-Hall,242
-Jordan,Pickford,287
-Mark,Travers,288
-Harry,Tyrer,289
-Jarrad,Branthwaite,290
-James,Tarkowski,291
-Vitalii,Mykolenko,292
-Jake,O'Brien,293
-Séamus,Coleman,294
-Michael,Keane,295
-Nathan,Patterson,296
-Roman,Dixon,297
-Reece,Welch,298
-Iliman,Ndiaye,299
-Dwight,McNeil,300
-Carlos,Alcaraz Durán,301
-Idrissa Gana,Gueye,302
-James,Garner,303
-Tim,Iroegbunam,304
-Harrison,Armstrong,305
-Callum,Bates,306
-Coby,Ebere,307
-Isaac,Heath,308
-Jenson,Metcalfe,309
-Thierno,Barry,310
-Norberto Bercique,Gomes Betuncal,311
-Youssef,Ramalho Chermiti,312
-Martin,Sherif,313
-Jack,Grealish,419
-Tom,King,630
-Adam,Aznou,667
-Bernd,Leno,314
-Steven,Benda,315
-Antonee,Robinson,316
-Joachim,Andersen,317
-Calvin,Bassey,318
-Timothy,Castagne,319
-Issa,Diop,320
-Jorge,Cuenca Barreno,321
-Kenny,Tete,322
-Samuel,Amissah,323
-Alex,Iwobi,324
-Emile,Smith Rowe,325
-Adama,Traoré Diarra,326
-Andreas,Hoelgebaum Pereira,327
-Ryan,Sessegnon,328
-Harry,Wilson,329
-Sander,Berge,330
-Tom,Cairney,331
-Saša,Lukić,332
-Martial,Godo,333
-Luke,Harris,334
-Josh,King,335
-Harrison,Reed,336
-Raúl,Jiménez Rodríguez,337
-Rodrigo,Muniz Carvalho,338
-Benjamin,Lecomte,664
-Illan,Meslier,339
-Alex,Cairns,340
-Karl,Darlow,341
-Jayden,Bogle,342
-Pascal,Struijk,343
-Jaka,Bijol,344
-Sebastiaan,Bornauw,345
-Sam,Byram,346
-Gabriel,Gudmundsson,347
-Joe,Rodon,348
-Isaac,Schmidt,349
-Brenden,Aaronson,350
-Wilfried,Gnonto,351
-Jack,Harrison,352
-Daniel,James,353
-Ethan,Ampadu,354
-Sam,Greenwood,355
-Ilia,Gruev,356
-Largie,Ramazani,357
-Tanaka,Ao,358
-Charlie,Crew,359
-Joe,Gelhardt,360
-Darko,Gyabi,361
-Joël,Piroe,362
-Patrick,Bamford,363
-Mateo,Joseph Fernández-Regatillo,364
-Lukas,Nmecha,365
-Sean,Longstaff,493
-Anton,Stach,660
-Lucas Estella,Perri,665
-Dominic,Calvert-Lewin,691
-Alisson,Becker,366
-Giorgi,Mamardashvili,367
-Ármin,Pécsi,368
-Freddie,Woodman,369
-Jeremie,Frimpong,370
-Milos,Kerkez,371
-Andrew,Robertson,372
-Virgil,van Dijk,373
-Ibrahima,Konaté,374
-Conor,Bradley,375
-Joe,Gomez,376
-Konstantinos,Tsimikas,377
-Amara,Nallo,378
-Rhys,Williams,379
-Calvin,Ramsay,380
-Mohamed,Salah,381
-Florian,Wirtz,382
-Luis,Díaz Marulanda,383
-Cody,Gakpo,384
-Federico,Chiesa,385
-Alexis,Mac Allister,386
-Dominik,Szoboszlai,387
-Curtis,Jones,388
-Harvey,Elliott,389
-Ryan,Gravenberch,390
-Endo,Wataru,392
-Stefan,Bajčetić Maquieira,393
-James,McConnell,394
-Tyler,Morton,395
-Trey,Nyoni,396
-Darwin,Núñez Ribeiro,397
-Jayden,Danns,398
-Hugo,Ekitiké,661
-Rio,Ngumoha,686
-Giovanni,Leoni,692
-James,Trafford,182
-Ederson,Santana de Moraes,399
-Stefan,Ortega Moreno,400
-Marcus,Bettinelli,401
-Rayan,Aït-Nouri,402
-Joško,Gvardiol,403
-Manuel,Akanji,404
-Nathan,Aké,405
-Abdukodir,Khusanov,406
-Matheus,Nunes,407
-Rúben,dos Santos Gato Alves Dias,408
-John,Stones,409
-Rico,Lewis,410
-Nico,O'Reilly,411
-Vitor,de Oliveira Nunes dos Reis,412
-Omar,Marmoush,413
-Phil,Foden,414
-Sávio,Moreira de Oliveira,415
-Bernardo,Mota Veiga de Carvalho e Silva,416
-Rayan,Cherki,417
-Jérémy,Doku,418
-İlkay,Gündoğan,420
-Rodrigo 'Rodri',Hernandez Cascante,421
-Mateo,Kovačić,422
-Nico,González Iglesias,423
-Oscar,Bobb,424
-Claudio,Echeverri,425
-Tijjani,Reijnders,427
-Sverre,Nypan,428
-Kalvin,Phillips,429
-Erling,Haaland,430
-Bryan,Mbeumo,119
-Altay,Bayındır,431
-André,Onana,432
-Elyh,Harrison,433
-Tom,Heaton,434
-Dermot,Mee,435
-Matthijs,de Ligt,436
-Lisandro,Martínez,437
-Noussair,Mazraoui,438
-Diego,León Blanco,439
-Diogo,Dalot Teixeira,440
-Patrick,Dorgu,441
-Harry,Maguire,442
-Luke,Shaw,443
-Leny,Yoro,444
-Harry,Amass,445
-Tyler,Fredricson,446
-Ayden,Heaven,447
-Tyrell,Malacia,448
-Bruno,Borges Fernandes,449
-Matheus,Santos Carneiro da Cunha,450
-Marcus,Rashford,451
-Amad,Diallo,452
-Alejandro,Garnacho Ferreyra,453
-Antony,dos Santos,454
-Mason,Mount,455
-Jadon,Sancho,456
-Carlos Henrique,Casimiro,457
-Kobbie,Mainoo,458
-Manuel,Ugarte Ribeiro,459
-Toby,Collyer,460
-Jayce,Fitzgerald,461
-Jack,Fletcher,462
-Sékou,Koné,463
-Jack,Moorhouse,464
-Rasmus,Højlund,465
-Joshua,Zirkzee,466
-Chido,Obi,467
-Ethan,Wheatley,468
-Benjamin,Sesko,681
-Jacob,Ramsey,52
-Nick,Pope,469
-Mark,Gillespie,471
-Odysseas,Vlachodimos,472
-Lewis,Hall,473
-Fabian,Schär,474
-Sven,Botman,475
-Dan,Burn,476
-Tino,Livramento,477
-Kieran,Trippier,478
-Emil,Krafth,479
-Jamaal,Lascelles,480
-Alex,Murphy,481
-Harrison,Ashby,482
-Miodrag,Pivaš,483
-Matt,Targett,484
-Anthony,Gordon,485
-Anthony,Elanga,486
-Harvey,Barnes,487
-Bruno,Guimarães Rodriguez Moura,488
-Jacob,Murphy,489
-Joelinton Cássio,Apolinário de Lira,490
-Sandro,Tonali,491
-Antoñito,Cordero Campillo,492
-Joe,Willock,494
-Isaac,Hayden,495
-Garang,Kuol,496
-Lewis,Miley,497
-Joe,White,498
-Alexander,Isak,499
-William,Osula,500
-Sean,Neave,501
-Aaron,Ramsdale,674
-Malick,Thiaw,684
-Seung-Soo,Park,689
-James,McAtee,426
-Matz,Sels,502
-Carlos Miguel,dos Santos Pereira,503
-Matt,Turner,504
-Nikola,Milenković,505
-Murillo,Costa dos Santos,506
-Ola,Aina,507
-Neco,Williams,508
-David,Mota Veiga Teixeira do Carmo,509
-Jair,Paula da Cunha Filho,510
-Felipe,Rodrigues da Silva,511
-Omar,Richards,512
-Zach,Abbott,513
-Willy,Boly,514
-Morgan,Gibbs-White,515
-Callum,Hudson-Odoi,516
-Elliot,Anderson,517
-João Pedro,Ferreira da Silva,518
-Nicolás,Domínguez,519
-Lewis,O'Brien,520
-Ibrahim,Sangaré,521
-Ryan,Yates,522
-Eric,da Silva Moreira,523
-Marko,Stamenić,524
-Chris,Wood,525
-Igor Jesus,Maciel da Cruz,526
-Taiwo,Awoniyi,527
-Dan,Ndoye,669
-Angus,Gunn,675
-Omari,Hutchinson,693
-Arnaud,Kalimuendo,696
-Marc,Guiu Paz,252
-Anthony,Patterson,528
-Simon,Moore,529
-Blondy,Nna Noukeu,530
-Daniel,Ballard,531
-Trai,Hume,532
-Aji,Alese,533
-Joe,Anderson,534
-Dennis,Cirkin,535
-Leo Fuhr,Hjelde,536
-Niall,Huggins,537
-Zak,Johnson,538
-Luke,O'Nien,539
-Timothée,Pembélé,540
-Reinildo,Mandava,541
-Jenson,Seelt,542
-Simon,Adingra,543
-Habib,Diarra,544
-Patrick,Roberts,545
-Milan,Aleksić,546
-Enzo,Le Fée,547
-Romaine,Mundle,548
-Dan,Neil,549
-Ian,Poveda-Ocampo,550
-Chris,Rigg,551
-Noah,Sadiki,552
-Chemsdine,Talbi,553
-Abdoullah,Ba,554
-Alan,Browne,555
-Pierre,Ekwah Elimby,556
-Harrison,Jones,557
-Jay,Matete,558
-Nectarios,Triantis,559
-Wilson,Isidor,560
-Eliezer,Mayenda Dossou,561
-Ahmed,Abdullahi,562
-Luís Hemir,Silva Semedo,563
-Nazarii,Rusyn,564
-Granit,Xhaka,668
-Robin,Roefs,670
-Arthur,Masuaku,678
-Omar,Alderete,683
-Nordi,Mukiele,694
-Guglielmo,Vicario,565
-Brandon,Austin,566
-Antonín,Kinský,567
-Pedro,Porro Sauceda,568
-Cristian,Romero,569
-Kevin,Danso,570
-Ben,Davies,571
-Radu,Drăgușin,572
-Djed,Spence,573
-Destiny,Udogie,574
-Micky,van de Ven,575
-Ashley,Phillips,576
-Takai,Kōta,577
-Luka,Vušković,578
-Son,Heung-min,579
-Brennan,Johnson,580
-James,Maddison,581
-Mohammed,Kudus,582
-Dejan,Kulusevski,583
-Mathys,Tel,584
-Rodrigo,Bentancur,585
-Lucas,Bergvall,586
-Yves,Bissouma,587
-Wilson,Odobert,588
-Manor,Solomon,589
-Bryan,Gil Salvatierra,590
-Archie,Gray,591
-Mikey,Moore,592
-Pape Matar,Sarr,593
-Yang,Min-hyeok,594
-Callum,Olusesi,595
-Dominic,Solanke-Mitchell,596
-Richarlison,de Andrade,597
-Will,Lankshear,598
-Dane,Scarlett,599
-João Maria,Lobo Alves Palhares Costa Palhinha Gonçalves,673
-Alphonse,Areola,600
-Wes,Foderingham,601
-Krisztián,Hegyi,602
-El Hadji Malick,Diouf,603
-Emerson,Palmieri dos Santos,604
-Maximilian,Kilman,605
-Konstantinos,Mavropanos,606
-Nayef,Aguerd,607
-Ollie,Scarles,608
-Jean-Clair,Todibo,609
-Aaron,Wan-Bissaka,610
-Kaelan,Casey,611
-Lucas,Tolentino Coelho de Lima,612
-Tomáš,Souček,613
-James,Ward-Prowse,614
-Crysencio,Summerville,615
-Edson,Álvarez Velázquez,616
-Maxwel,Cornet,617
-Guido,Rodríguez,618
-Luis Guilherme,Lira dos Santos,619
-George,Earthy,620
-Andy,Irving,621
-Lewis,Orford,622
-Freddie,Potts,623
-Jarrod,Bowen,624
-Niclas,Füllkrug,625
-Callum,Marshall,626
-Kyle,Walker-Peters,659
-Callum,Wilson,671
-Mads,Hermansen,679
-Sam,Johnstone,627
-José,Malheiro de Sá,628
-Daniel,Bentley,629
-Emmanuel,Agbadou,631
-Matt,Doherty,632
-Hugo,Bueno López,633
-Yerson,Mosquera Valdelamar,634
-Rodrigo,Martins Gomes,635
-Santiago,Ignacio Bueno,636
-Toti,Gomes,637
-Ki-Jana,Hoever,638
-Bastien,Meupiyou Menadjou,639
-Pedro,Cardoso de Lima,640
-Alfie,Pond,641
-Hwang,Hee-chan,642
-André,Trindade da Costa Neto,643
-Jean-Ricner,Bellegarde,644
-Fer,López González,645
-João Victor,Gomes da Silva,646
-Gonçalo Manuel,Ganchinho Guedes,647
-Marshall,Munetsi,648
-Boubacar,Traoré,649
-Tawanda,Chirewa,650
-Tom,Edozie,651
-Enso,González Medina,652
-Joe,Hodge,653
-Jørgen,Strand Larsen,654
-Fábio,Soares Silva,655
-Saša,Kalajdžić,656
-Leon,Chiwome,657
-Nathan,Fraser,658
-Jhon,Arias,663
-David,Møller Wolfe,682
-Jackson,Tchatchoua,695
+id,name,position,now_cost
+1,David Raya Martín,GK,55
+2,Kepa Arrizabalaga Revuelta,GK,45
+3,Karl Hein,GK,40
+4,Tommy Setford,GK,40
+5,Gabriel dos Santos Magalhães,DEF,60
+6,William Saliba,DEF,60
+7,Riccardo Calafiori,DEF,55
+8,Jurriën Timber,DEF,55
+9,Jakub Kiwior,DEF,55
+10,Myles Lewis-Skelly,DEF,55
+11,Benjamin White,DEF,55
+12,Oleksandr Zinchenko,DEF,50
+13,Brayden Clarke,DEF,40
+14,Maldini Kacurri,DEF,40
+15,Josh Nichols,DEF,40
+16,Bukayo Saka,MID,100
+17,Martin Ødegaard,MID,80
+18,Noni Madueke,MID,70
+19,Gabriel Martinelli Silva,MID,70
+20,Leandro Trossard,MID,70
+21,Declan Rice,MID,65
+22,Mikel Merino Zazón,MID,60
+23,Fábio Ferreira Vieira,MID,55
+24,Christian Nørgaard,MID,55
+25,Ethan Nwaneri,MID,55
+26,Martín Zubimendi Ibáñez,MID,55
+27,Reiss Nelson,MID,50
+28,Ismeal Kabia,MID,45
+29,Albert Sambi Lokonga,MID,45
+30,Kai Havertz,FWD,75
+31,Gabriel Fernando de Jesus,FWD,65
+662,Cristhian Mosquera,DEF,55
+666,Viktor Gyökeres,FWD,90
+32,Emiliano Martínez Romero,GK,50
+33,Marco Bizot,GK,45
+34,Joe Gauci,GK,40
+35,Filip Marschall,GK,40
+36,Matty Cash,DEF,45
+37,Lucas Digne,DEF,45
+38,Ezri Konsa Ngoyo,DEF,45
+39,Ian Maatsen,DEF,45
+40,Tyrone Mings,DEF,45
+41,Pau Torres,DEF,45
+42,Andrés García,DEF,40
+43,Álex Moreno Lopera,DEF,40
+44,Lamare Bogarde,DEF,40
+45,Lino da Cruz Sousa,DEF,40
+46,Yasin Özcan,DEF,40
+47,Morgan Rogers,MID,70
+48,Youri Tielemans,MID,60
+49,Leon Bailey,MID,55
+50,Emiliano Buendía Stati,MID,55
+51,Samuel Iling-Junior,MID,55
+53,Donyell Malen,MID,55
+54,John McGinn,MID,55
+55,Ross Barkley,MID,50
+56,Enzo Barrenechea,MID,50
+57,Lewis Dobbin,MID,50
+58,Boubacar Kamara,MID,50
+59,Amadou Onana,MID,50
+60,Ben Broggio,MID,45
+61,Leander Dendoncker,MID,45
+62,Jamaldeen Jimoh-Aloba,MID,45
+63,Kadan Young,MID,45
+64,Ollie Watkins,FWD,90
+65,Zépiqueno Redmond,FWD,45
+677,Evann Guessand,MID,65
+688,James Wright,GK,40
+183,Max Weiß,GK,45
+184,Etienne Green,GK,40
+185,Václav Hladký,GK,40
+186,Connor Roberts,DEF,45
+187,Kyle Walker,DEF,45
+188,Hannes Delcroix,DEF,40
+189,Owen Dodgson,DEF,40
+190,Hjalmar Ekdal,DEF,40
+191,Maxime Estève,DEF,40
+192,Quilindschy Hartman,DEF,40
+193,Bashir Humphreys,DEF,40
+194,Jordan Beyer,DEF,40
+195,Lucas Pires Silva,DEF,40
+196,Shurandy Sambo,DEF,40
+197,Oliver Sonne,DEF,40
+198,Axel Tuanzebe,DEF,40
+199,Joe Worrall,DEF,40
+200,Jaidon Anthony,MID,55
+201,Manuel Benson Hedilazio,MID,55
+202,Jacob Bruun Larsen,MID,55
+203,Enock Agyei,MID,50
+204,Darko Churlinov,MID,50
+205,Josh Cullen,MID,50
+206,Marcus Edwards,MID,50
+207,Hannibal Mejbri,MID,50
+208,Luca Koleosho,MID,50
+209,Josh Laurent,MID,50
+210,Loum Tchaouna,MID,50
+211,Aaron Ramsey,MID,45
+212,Oluwaseun Adewumi,MID,45
+213,Jaydon Banel,MID,45
+214,Mike Trésor Ndayishimiye,MID,45
+215,Zian Flemming,FWD,55
+216,Zeki Amdouni,FWD,50
+217,Lyle Foster,FWD,50
+218,Ashley Barnes,FWD,45
+219,Michael Obafemi,FWD,45
+470,Martin Dúbravka,GK,40
+676,Lesley Ugochukwu,MID,50
+680,Armando Broja,FWD,55
+66,Norberto Murara Neto,GK,45
+67,Đorđe Petrović,GK,45
+68,Will Dennis,GK,40
+69,Callan McKenna,GK,40
+70,Alex Paulsen,GK,40
+71,Illia Zabarnyi,DEF,50
+72,Marcos Senesi Barón,DEF,45
+73,Adam Smith,DEF,45
+74,Adrien Truffert,DEF,45
+75,Matai Akinmboni,DEF,40
+76,Owen Bevan,DEF,40
+77,James Hill,DEF,40
+78,Julián Araujo Zúñiga,DEF,40
+79,Chris Mepham,DEF,40
+80,Julio Soler Barreto,DEF,40
+81,Justin Kluivert,MID,70
+82,Antoine Semenyo,MID,71
+84,Marcus Tavernier,MID,55
+85,Tyler Adams,MID,50
+86,David Brooks,MID,50
+87,Ryan Christie,MID,50
+88,Lewis Cook,MID,50
+89,Philip Billing,MID,50
+90,Alex Scott,MID,50
+91,Luis Sinisterra Lucumí,MID,50
+92,Romain Faivre,MID,45
+93,Hamed Traorè,MID,45
+94,Dominic Sadi,MID,45
+95,Zain Silcott-Duberry,MID,45
+96,Ben Winterburn,MID,45
+97,Francisco Evanilson de Lima Barbosa,FWD,70
+98,Enes Ünal,FWD,55
+99,Daniel Adu-Adjei,FWD,45
+100,Eli Junior Kroupi,FWD,45
+391,Ben Doak,MID,50
+685,Bafodé Diakité,DEF,45
+687,Remy Rees-Dottin,MID,45
+83,Dango Ouattara,MID,60
+101,Caoimhín Kelleher,GK,45
+102,Ellery Balcombe,GK,40
+103,Matthew Cox,GK,40
+104,Julian Eyestone,GK,40
+105,Hákon Rafn Valdimarsson,GK,40
+106,Nathan Collins,DEF,50
+107,Keane Lewis-Potter,DEF,50
+108,Kristoffer Ajer,DEF,45
+109,Rico Henry,DEF,45
+110,Michael Kayode,DEF,45
+111,Ethan Pinnock,DEF,45
+112,Mads Roerslev Rasmussen,DEF,45
+113,Sepp van den Berg,DEF,45
+114,Benjamin Arthur,DEF,40
+115,Benjamin Fredrick,DEF,40
+116,Aaron Hickey,DEF,40
+117,Kim Ji-soo,DEF,40
+118,Jayden Meghoma,DEF,40
+120,Kevin Schade,MID,70
+121,Mikkel Damsgaard,MID,60
+122,Antoni Milambo,MID,55
+123,Fábio Freitas Gouveia Carvalho,MID,50
+124,Jordan Henderson,MID,50
+125,Vitaly Janelt,MID,50
+126,Mathias Jensen,MID,50
+127,Gustavo Nunes Fernandes Gomes,MID,50
+128,Frank Onyeka,MID,50
+129,Yehor Yarmoliuk,MID,50
+130,Romelle Donovan,MID,45
+131,Yunus Emre Konak,MID,45
+132,Paris Maghoma,MID,45
+133,Myles Peart-Harris,MID,45
+134,Ryan Trevitt,MID,45
+135,Yoane Wissa,FWD,75
+136,Igor Thiago Nascimento Rodrigues,FWD,60
+137,Iwan Morgan,FWD,45
+138,Jason Steele,GK,45
+139,Bart Verbruggen,GK,45
+140,Tom McGill,GK,40
+141,Carl Rushworth,GK,40
+142,Kjell Scherpen,GK,40
+143,Olivier Boscagli,DEF,45
+144,Diego Coppola,DEF,45
+145,Maxim De Cuyper,DEF,45
+146,Lewis Dunk,DEF,45
+147,Pervis Estupiñán Tenorio,DEF,45
+148,Ferdi Kadıoğlu,DEF,45
+149,Igor Julio dos Santos de Paulo,DEF,45
+150,Tariq Lamptey,DEF,45
+151,Jan Paul van Hecke,DEF,45
+152,Joël Veltman,DEF,45
+153,Adam Webster,DEF,45
+154,Eiran Cashin,DEF,40
+155,Jacob Slater,DEF,40
+156,Charlie Tasker,DEF,40
+157,Mitoma Kaoru,MID,65
+158,Georginio Rutter,MID,60
+159,Solly March,MID,60
+160,Yankuba Minteh,MID,60
+161,Julio Enciso Espínola,MID,55
+162,Brajan Gruda,MID,55
+163,Jack Hinshelwood,MID,55
+164,Matt O'Riley,MID,55
+165,Abdallah Sima,MID,55
+166,Yasin Ayari,MID,50
+167,Carlos Baleba,MID,50
+168,Facundo Buonanotte,MID,50
+169,Diego Gómez Amarilla,MID,50
+170,James Milner,MID,50
+171,Jeremy Sarmiento Morante,MID,50
+172,Tom Watson,MID,50
+173,Mats Wieffer,MID,50
+174,Malick Yalcouyé,MID,50
+175,Joe Knight,MID,45
+176,Adrian Mazilu,MID,45
+177,Andrew Moran,MID,45
+178,Danny Welbeck,FWD,65
+179,Evan Ferguson,FWD,55
+180,Stefanos Tzimas,FWD,55
+181,Charalampos Kostoulas,FWD,50
+220,Robert Lynch Sánchez,GK,50
+221,Filip Jörgensen,GK,45
+222,Mike Penders,GK,40
+223,Gabriel Słonina,GK,40
+224,Marc Cucurella Saseta,DEF,60
+225,Reece James,DEF,55
+226,Trevoh Chalobah,DEF,50
+227,Levi Samuels Colwill,DEF,50
+228,Malo Gusto,DEF,50
+229,Benoît Badiashile Mukinayi,DEF,45
+230,Wesley Fofana,DEF,45
+231,Mamadou Sarr,DEF,45
+232,Tosin Adarabioyo,DEF,45
+233,Josh Acheampong,DEF,40
+234,Aarón Anselmino,DEF,40
+235,Cole Palmer,MID,105
+236,Pedro Lomba Neto,MID,70
+237,Enzo Fernández,MID,65
+238,Estêvão Almeida de Oliveira Gonçalves,MID,65
+239,Jamie Bynoe-Gittens,MID,65
+240,Christopher Nkunku,MID,60
+241,Moisés Caicedo Corozo,MID,55
+243,Tyrique George,MID,50
+244,Roméo Lavia,MID,50
+245,Mykhailo Mudryk,MID,50
+246,Andrey Nascimento dos Santos,MID,45
+247,Dário Luís Essugo,MID,45
+248,Kendry Páez Andrade,MID,45
+249,João Pedro Junqueira de Jesus,FWD,75
+250,Liam Delap,FWD,65
+251,Nicolas Jackson,FWD,65
+672,Jorrel Hato,DEF,50
+253,Dean Henderson,GK,50
+254,Walter Benítez,GK,40
+255,Remi Matthews,GK,40
+256,Daniel Muñoz Mejía,DEF,55
+257,Maxence Lacroix,DEF,50
+258,Tyrick Mitchell,DEF,50
+259,Borna Sosa,DEF,50
+260,Marc Guéhi,DEF,45
+261,Chris Richards,DEF,45
+262,Chadi Riad Dnanou,DEF,40
+263,Nathaniel Clyne,DEF,40
+264,Rob Holding,DEF,40
+265,Caleb Kporha,DEF,40
+266,Eberechi Eze,MID,75
+267,Ismaïla Sarr,MID,65
+268,Cheick Doucouré,MID,50
+269,Romain Esse,MID,50
+270,Will Hughes,MID,50
+271,Daichi Kamada,MID,50
+272,Jefferson Lerma Solís,MID,50
+273,Adam Wharton,MID,50
+274,Asher Agbinone,MID,45
+275,Naouirou Ahamada,MID,45
+276,Justin Devenny,MID,45
+277,Malcolm Ebiowei,MID,45
+278,Jesurun Rak-Sakyi,MID,45
+279,Matheus França de Oliveira,MID,45
+280,David Ozoh,MID,45
+281,Kaden Rodney,MID,45
+282,Franco Umeh-Chibueze,MID,45
+283,Jean-Philippe Mateta,FWD,75
+284,Eddie Nketiah,FWD,55
+285,Odsonne Édouard,FWD,50
+286,Zach Marsh,FWD,45
+690,Rio Cardines,MID,45
+242,Kiernan Dewsbury-Hall,MID,50
+287,Jordan Pickford,GK,55
+288,Mark Travers,GK,45
+289,Harry Tyrer,GK,40
+290,Jarrad Branthwaite,DEF,55
+291,James Tarkowski,DEF,55
+292,Vitalii Mykolenko,DEF,50
+293,Jake O'Brien,DEF,50
+294,Séamus Coleman,DEF,45
+295,Michael Keane,DEF,45
+296,Nathan Patterson,DEF,45
+297,Roman Dixon,DEF,40
+298,Reece Welch,DEF,40
+299,Iliman Ndiaye,MID,65
+300,Dwight McNeil,MID,60
+301,Carlos Alcaraz Durán,MID,55
+302,Idrissa Gana Gueye,MID,55
+303,James Garner,MID,50
+304,Tim Iroegbunam,MID,50
+305,Harrison Armstrong,MID,45
+306,Callum Bates,MID,45
+307,Coby Ebere,MID,45
+308,Isaac Heath,MID,45
+309,Jenson Metcalfe,MID,45
+310,Thierno Barry,FWD,60
+311,Norberto Bercique Gomes Betuncal,FWD,55
+312,Youssef Ramalho Chermiti,FWD,50
+313,Martin Sherif,FWD,45
+419,Jack Grealish,MID,65
+630,Tom King,GK,40
+667,Adam Aznou,DEF,45
+314,Bernd Leno,GK,50
+315,Steven Benda,GK,40
+316,Antonee Robinson,DEF,50
+317,Joachim Andersen,DEF,45
+318,Calvin Bassey,DEF,45
+319,Timothy Castagne,DEF,45
+320,Issa Diop,DEF,45
+321,Jorge Cuenca Barreno,DEF,45
+322,Kenny Tete,DEF,45
+323,Samuel Amissah,DEF,40
+324,Alex Iwobi,MID,65
+325,Emile Smith Rowe,MID,60
+326,Adama Traoré Diarra,MID,55
+327,Andreas Hoelgebaum Pereira,MID,55
+328,Ryan Sessegnon,MID,55
+329,Harry Wilson,MID,55
+330,Sander Berge,MID,50
+331,Tom Cairney,MID,50
+332,Saša Lukić,MID,50
+333,Martial Godo,MID,45
+334,Luke Harris,MID,45
+335,Josh King,MID,45
+336,Harrison Reed,MID,45
+337,Raúl Jiménez Rodríguez,FWD,65
+338,Rodrigo Muniz Carvalho,FWD,55
+664,Benjamin Lecomte,GK,40
+339,Illan Meslier,GK,45
+340,Alex Cairns,GK,40
+341,Karl Darlow,GK,40
+342,Jayden Bogle,DEF,45
+343,Pascal Struijk,DEF,45
+344,Jaka Bijol,DEF,40
+345,Sebastiaan Bornauw,DEF,40
+346,Sam Byram,DEF,40
+347,Gabriel Gudmundsson,DEF,40
+348,Joe Rodon,DEF,40
+349,Isaac Schmidt,DEF,40
+350,Brenden Aaronson,MID,55
+351,Wilfried Gnonto,MID,55
+352,Jack Harrison,MID,55
+353,Daniel James,MID,55
+354,Ethan Ampadu,MID,50
+355,Sam Greenwood,MID,50
+356,Ilia Gruev,MID,50
+357,Largie Ramazani,MID,50
+358,Tanaka Ao,MID,50
+359,Charlie Crew,MID,45
+360,Joe Gelhardt,MID,45
+361,Darko Gyabi,MID,45
+362,Joël Piroe,FWD,55
+363,Patrick Bamford,FWD,50
+364,Mateo Joseph Fernández-Regatillo,FWD,50
+365,Lukas Nmecha,FWD,50
+493,Sean Longstaff,MID,50
+660,Anton Stach,MID,50
+665,Lucas Estella Perri,GK,45
+691,Dominic Calvert-Lewin,FWD,55
+366,Alisson Becker,GK,55
+367,Giorgi Mamardashvili,GK,45
+368,Ármin Pécsi,GK,40
+369,Freddie Woodman,GK,40
+370,Jeremie Frimpong,DEF,60
+371,Milos Kerkez,DEF,60
+372,Andrew Robertson,DEF,60
+373,Virgil van Dijk,DEF,60
+374,Ibrahima Konaté,DEF,55
+375,Conor Bradley,DEF,50
+376,Joe Gomez,DEF,50
+377,Konstantinos Tsimikas,DEF,50
+378,Amara Nallo,DEF,40
+379,Rhys Williams,DEF,40
+380,Calvin Ramsay,DEF,40
+381,Mohamed Salah,MID,145
+382,Florian Wirtz,MID,85
+383,Luis Díaz Marulanda,MID,80
+384,Cody Gakpo,MID,75
+385,Federico Chiesa,MID,65
+386,Alexis Mac Allister,MID,65
+387,Dominik Szoboszlai,MID,65
+388,Curtis Jones,MID,55
+389,Harvey Elliott,MID,55
+390,Ryan Gravenberch,MID,55
+392,Endo Wataru,MID,50
+393,Stefan Bajčetić Maquieira,MID,45
+394,James McConnell,MID,45
+395,Tyler Morton,MID,45
+396,Trey Nyoni,MID,45
+397,Darwin Núñez Ribeiro,FWD,65
+398,Jayden Danns,FWD,45
+661,Hugo Ekitiké,FWD,86
+686,Rio Ngumoha,MID,45
+692,Giovanni Leoni,DEF,50
+182,James Trafford,GK,50
+399,Ederson Santana de Moraes,GK,55
+400,Stefan Ortega Moreno,GK,50
+401,Marcus Bettinelli,GK,40
+402,Rayan Aït-Nouri,DEF,60
+403,Joško Gvardiol,DEF,60
+404,Manuel Akanji,DEF,55
+405,Nathan Aké,DEF,55
+406,Abdukodir Khusanov,DEF,55
+407,Matheus Nunes,DEF,55
+408,Rúben dos Santos Gato Alves Dias,DEF,55
+409,John Stones,DEF,55
+410,Rico Lewis,DEF,50
+411,Nico O'Reilly,DEF,50
+412,Vitor de Oliveira Nunes dos Reis,DEF,50
+413,Omar Marmoush,MID,85
+414,Phil Foden,MID,80
+415,Sávio Moreira de Oliveira,MID,70
+416,Bernardo Mota Veiga de Carvalho e Silva,MID,65
+417,Rayan Cherki,MID,65
+418,Jérémy Doku,MID,65
+420,İlkay Gündoğan,MID,65
+421,Rodrigo 'Rodri' Hernandez Cascante,MID,65
+422,Mateo Kovačić,MID,60
+423,Nico González Iglesias,MID,60
+424,Oscar Bobb,MID,55
+425,Claudio Echeverri,MID,55
+427,Tijjani Reijnders,MID,56
+428,Sverre Nypan,MID,50
+429,Kalvin Phillips,MID,50
+430,Erling Haaland,FWD,140
+119,Bryan Mbeumo,MID,80
+431,Altay Bayındır,GK,50
+432,André Onana,GK,50
+433,Elyh Harrison,GK,40
+434,Tom Heaton,GK,40
+435,Dermot Mee,GK,40
+436,Matthijs de Ligt,DEF,50
+437,Lisandro Martínez,DEF,50
+438,Noussair Mazraoui,DEF,50
+439,Diego León Blanco,DEF,45
+440,Diogo Dalot Teixeira,DEF,45
+441,Patrick Dorgu,DEF,45
+442,Harry Maguire,DEF,45
+443,Luke Shaw,DEF,45
+444,Leny Yoro,DEF,45
+445,Harry Amass,DEF,40
+446,Tyler Fredricson,DEF,40
+447,Ayden Heaven,DEF,40
+448,Tyrell Malacia,DEF,40
+449,Bruno Borges Fernandes,MID,90
+450,Matheus Santos Carneiro da Cunha,MID,80
+451,Marcus Rashford,MID,70
+452,Amad Diallo,MID,65
+453,Alejandro Garnacho Ferreyra,MID,65
+454,Antony dos Santos,MID,60
+455,Mason Mount,MID,60
+456,Jadon Sancho,MID,60
+457,Carlos Henrique Casimiro,MID,55
+458,Kobbie Mainoo,MID,50
+459,Manuel Ugarte Ribeiro,MID,50
+460,Toby Collyer,MID,45
+461,Jayce Fitzgerald,MID,45
+462,Jack Fletcher,MID,45
+463,Sékou Koné,MID,45
+464,Jack Moorhouse,MID,45
+465,Rasmus Højlund,FWD,65
+466,Joshua Zirkzee,FWD,60
+467,Chido Obi,FWD,45
+468,Ethan Wheatley,FWD,45
+681,Benjamin Sesko,FWD,75
+52,Jacob Ramsey,MID,55
+469,Nick Pope,GK,50
+471,Mark Gillespie,GK,40
+472,Odysseas Vlachodimos,GK,40
+473,Lewis Hall,DEF,55
+474,Fabian Schär,DEF,55
+475,Sven Botman,DEF,50
+476,Dan Burn,DEF,50
+477,Tino Livramento,DEF,50
+478,Kieran Trippier,DEF,50
+479,Emil Krafth,DEF,45
+480,Jamaal Lascelles,DEF,45
+481,Alex Murphy,DEF,40
+482,Harrison Ashby,DEF,40
+483,Miodrag Pivaš,DEF,40
+484,Matt Targett,DEF,40
+485,Anthony Gordon,MID,75
+486,Anthony Elanga,MID,70
+487,Harvey Barnes,MID,65
+488,Bruno Guimarães Rodriguez Moura,MID,65
+489,Jacob Murphy,MID,65
+490,Joelinton Cássio Apolinário de Lira,MID,60
+491,Sandro Tonali,MID,55
+492,Antoñito Cordero Campillo,MID,50
+494,Joe Willock,MID,50
+495,Isaac Hayden,MID,45
+496,Garang Kuol,MID,45
+497,Lewis Miley,MID,45
+498,Joe White,MID,45
+499,Alexander Isak,FWD,105
+500,William Osula,FWD,55
+501,Sean Neave,FWD,45
+674,Aaron Ramsdale,GK,50
+684,Malick Thiaw,DEF,50
+689,Seung-Soo Park,MID,45
+426,James McAtee,MID,55
+502,Matz Sels,GK,50
+503,Carlos Miguel dos Santos Pereira,GK,40
+504,Matt Turner,GK,40
+505,Nikola Milenković,DEF,55
+506,Murillo Costa dos Santos,DEF,55
+507,Ola Aina,DEF,50
+508,Neco Williams,DEF,50
+509,David Mota Veiga Teixeira do Carmo,DEF,45
+510,Jair Paula da Cunha Filho,DEF,45
+511,Felipe Rodrigues da Silva,DEF,45
+512,Omar Richards,DEF,45
+513,Zach Abbott,DEF,40
+514,Willy Boly,DEF,40
+515,Morgan Gibbs-White,MID,75
+516,Callum Hudson-Odoi,MID,60
+517,Elliot Anderson,MID,55
+518,João Pedro Ferreira da Silva,MID,55
+519,Nicolás Domínguez,MID,50
+520,Lewis O'Brien,MID,50
+521,Ibrahim Sangaré,MID,50
+522,Ryan Yates,MID,50
+523,Eric da Silva Moreira,MID,45
+524,Marko Stamenić,MID,45
+525,Chris Wood,FWD,76
+526,Igor Jesus Maciel da Cruz,FWD,60
+527,Taiwo Awoniyi,FWD,55
+669,Dan Ndoye,MID,60
+675,Angus Gunn,GK,40
+693,Omari Hutchinson,MID,55
+696,Arnaud Kalimuendo,FWD,60
+252,Marc Guiu Paz,FWD,45
+528,Anthony Patterson,GK,45
+529,Simon Moore,GK,40
+530,Blondy Nna Noukeu,GK,40
+531,Daniel Ballard,DEF,45
+532,Trai Hume,DEF,45
+533,Aji Alese,DEF,40
+534,Joe Anderson,DEF,40
+535,Dennis Cirkin,DEF,40
+536,Leo Fuhr Hjelde,DEF,40
+537,Niall Huggins,DEF,40
+538,Zak Johnson,DEF,40
+539,Luke O'Nien,DEF,40
+540,Timothée Pembélé,DEF,40
+541,Reinildo Mandava,DEF,40
+542,Jenson Seelt,DEF,40
+543,Simon Adingra,MID,55
+544,Habib Diarra,MID,55
+545,Patrick Roberts,MID,55
+546,Milan Aleksić,MID,50
+547,Enzo Le Fée,MID,50
+548,Romaine Mundle,MID,50
+549,Dan Neil,MID,50
+550,Ian Poveda-Ocampo,MID,50
+551,Chris Rigg,MID,50
+552,Noah Sadiki,MID,50
+553,Chemsdine Talbi,MID,50
+554,Abdoullah Ba,MID,45
+555,Alan Browne,MID,45
+556,Pierre Ekwah Elimby,MID,45
+557,Harrison Jones,MID,45
+558,Jay Matete,MID,45
+559,Nectarios Triantis,MID,45
+560,Wilson Isidor,FWD,55
+561,Eliezer Mayenda Dossou,FWD,55
+562,Ahmed Abdullahi,FWD,45
+563,Luís Hemir Silva Semedo,FWD,45
+564,Nazarii Rusyn,FWD,45
+668,Granit Xhaka,MID,50
+670,Robin Roefs,GK,45
+678,Arthur Masuaku,DEF,40
+683,Omar Alderete,DEF,40
+694,Nordi Mukiele,DEF,40
+565,Guglielmo Vicario,GK,50
+566,Brandon Austin,GK,40
+567,Antonín Kinský,GK,40
+568,Pedro Porro Sauceda,DEF,55
+569,Cristian Romero,DEF,50
+570,Kevin Danso,DEF,45
+571,Ben Davies,DEF,45
+572,Radu Drăgușin,DEF,45
+573,Djed Spence,DEF,45
+574,Destiny Udogie,DEF,45
+575,Micky van de Ven,DEF,45
+576,Ashley Phillips,DEF,40
+577,Takai Kōta,DEF,40
+578,Luka Vušković,DEF,40
+579,Son Heung-min,MID,85
+580,Brennan Johnson,MID,70
+581,James Maddison,MID,70
+582,Mohammed Kudus,MID,65
+583,Dejan Kulusevski,MID,65
+584,Mathys Tel,MID,65
+585,Rodrigo Bentancur,MID,55
+586,Lucas Bergvall,MID,55
+587,Yves Bissouma,MID,55
+588,Wilson Odobert,MID,55
+589,Manor Solomon,MID,55
+590,Bryan Gil Salvatierra,MID,50
+591,Archie Gray,MID,50
+592,Mikey Moore,MID,50
+593,Pape Matar Sarr,MID,50
+594,Yang Min-hyeok,MID,45
+595,Callum Olusesi,MID,45
+596,Dominic Solanke-Mitchell,FWD,75
+597,Richarlison de Andrade,FWD,65
+598,Will Lankshear,FWD,45
+599,Dane Scarlett,FWD,45
+673,João Maria Lobo Alves Palhares Costa Palhinha Gonçalves,MID,55
+600,Alphonse Areola,GK,45
+601,Wes Foderingham,GK,40
+602,Krisztián Hegyi,GK,40
+603,El Hadji Malick Diouf,DEF,45
+604,Emerson Palmieri dos Santos,DEF,45
+605,Maximilian Kilman,DEF,45
+606,Konstantinos Mavropanos,DEF,45
+607,Nayef Aguerd,DEF,45
+608,Ollie Scarles,DEF,45
+609,Jean-Clair Todibo,DEF,45
+610,Aaron Wan-Bissaka,DEF,45
+611,Kaelan Casey,DEF,40
+612,Lucas Tolentino Coelho de Lima,MID,60
+613,Tomáš Souček,MID,60
+614,James Ward-Prowse,MID,60
+615,Crysencio Summerville,MID,55
+616,Edson Álvarez Velázquez,MID,50
+617,Maxwel Cornet,MID,50
+618,Guido Rodríguez,MID,50
+619,Luis Guilherme Lira dos Santos,MID,50
+620,George Earthy,MID,45
+621,Andy Irving,MID,45
+622,Lewis Orford,MID,45
+623,Freddie Potts,MID,45
+624,Jarrod Bowen,FWD,80
+625,Niclas Füllkrug,FWD,60
+626,Callum Marshall,FWD,45
+659,Kyle Walker-Peters,DEF,45
+671,Callum Wilson,FWD,60
+679,Mads Hermansen,GK,45
+627,Sam Johnstone,GK,45
+628,José Malheiro de Sá,GK,45
+629,Daniel Bentley,GK,40
+631,Emmanuel Agbadou,DEF,45
+632,Matt Doherty,DEF,45
+633,Hugo Bueno López,DEF,45
+634,Yerson Mosquera Valdelamar,DEF,45
+635,Rodrigo Martins Gomes,DEF,45
+636,Santiago Ignacio Bueno,DEF,45
+637,Toti Gomes,DEF,45
+638,Ki-Jana Hoever,DEF,40
+639,Bastien Meupiyou Menadjou,DEF,40
+640,Pedro Cardoso de Lima,DEF,40
+641,Alfie Pond,DEF,40
+642,Hwang Hee-chan,MID,60
+643,André Trindade da Costa Neto,MID,55
+644,Jean-Ricner Bellegarde,MID,55
+645,Fer López González,MID,55
+646,João Victor Gomes da Silva,MID,55
+647,Gonçalo Manuel Ganchinho Guedes,MID,55
+648,Marshall Munetsi,MID,55
+649,Boubacar Traoré,MID,50
+650,Tawanda Chirewa,MID,45
+651,Tom Edozie,MID,45
+652,Enso González Medina,MID,45
+653,Joe Hodge,MID,45
+654,Jørgen Strand Larsen,FWD,65
+655,Fábio Soares Silva,FWD,50
+656,Saša Kalajdžić,FWD,50
+657,Leon Chiwome,FWD,45
+658,Nathan Fraser,FWD,45
+663,Jhon Arias,MID,55
+682,David Møller Wolfe,DEF,45
+695,Jackson Tchatchoua,DEF,45
